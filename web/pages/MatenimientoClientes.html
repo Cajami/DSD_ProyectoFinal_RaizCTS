@@ -1,73 +1,141 @@
-﻿<div class="container">
+<div class="container">
     <div class="row margin-top-10">
-        <div class="col-sm-3">
-            Documento Identidad:
+
+        <div class="col-sm-4">
+            Pais:
+            <select class="form-control" id="cboPaisEmpleado"></select>
         </div>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" />
+
+        <div class="col-sm-4">
+            Tipo Documento:
+            <select class="form-control" id="cboTipoDocumentoEmpleado"></select>
+        </div>
+
+        <div class="col-sm-4">
+            Documento Identidad:
+            <input type="text" class="form-control" id="txtDocumentoIdentidadEmpleado" />
         </div>
     </div>
     <div class="row margin-top-10">
         <div class="col-sm-4">
             Apellido Paterno
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" id="txtApellidoPaternoEmpleado" />
         </div>
         <div class="col-sm-4">
             Apellido Materno
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" id="txtApellidoMaternoEmpleado" />
         </div>
         <div class="col-sm-4">
             Nombres
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" id="txtNombresEmpleado" />
         </div>
     </div>
     <div class="row margin-top-10">
-        <div class="col-sm-12">
+        <div class="col-sm-8">
             Dirección:
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" id="txtDireccionEmpleado" />
+        </div>
+        <div class="col-sm-4">
+            Fecha Nacimiento:
+            <input type="text" class="form-control" id="txtFechaNacimientoEmpleado" />
         </div>
     </div>
 
     <div class="row margin-top-10">
+
         <div class="col-sm-4">
-            Departamento:
-            <select class="form-control">
-                <option>LIMA</option>
-            </select>
+            Email:
+            <input type="text" class="form-control" id="txtEmailEmpleado" />
         </div>
-        <div class="col-sm-4">
-            Provincia:
-            <select class="form-control">
-                <option>LIMA</option>
-            </select>
-        </div>
-        <div class="col-sm-4">
-            Distrito:
-            <select class="form-control">
-                <option>SAN MIGUEL</option>
-            </select>
-        </div>
-    </div>
-    <div class="row margin-top-10">
-        <div class="col-sm-12">
+        <div class="col-sm-8">
             Empleador:
-            <div class="input-group">
+            <input type="text" class="form-control" id="txtEmpleadorEmpleado" />
+
+            <!--<div class="input-group">
                 <input type="text" class="form-control" />
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">
                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
                 </span>
-            </div><!-- /input-group -->
+            </div>-->
         </div>
     </div>
     <div class="row margin-top-10">
         <div class="col-sm-12">
-            <button class="btn btn-default pull-right">
+            <button class="btn btn-default pull-right" id="btnGuardarCliente">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 GUARDAR CLIENTE
             </button>
         </div>
     </div>
 </div>
+<script>
 
+
+    $('#txtEmpleadorEmpleado').typeahead({
+        source: [],
+        val: 'codigoEmpresa',
+        items: 10,
+        afterSelect: function (elemento) {
+
+        }
+    }).focusin(function () {
+        $(this).select();
+    });
+
+    QueryAJAX('empresa', 'GET', '',
+            function (data) {
+
+                data.map(function (e) {
+                    e.name = e.descripcion;
+                });
+                $("#txtEmpleadorEmpleado").data('typeahead').source = data;
+            },
+            function (data) {
+                alert('Error al consultar REST: Empresas');
+            });
+
+    QueryAJAX('pais', 'GET', '',
+            function (data) {
+                var html = '';
+                data.map(function (e) {
+                    html += '<option value="' + e.codigoPais + '">' + e.descripcion + '</option>';
+                });
+                $('#cboPaisEmpleado').html(html);
+            },
+            function (data) {
+                alert('Error al consultar REST: Paises');
+            });
+
+
+    QueryAJAX('tipoDocumento', 'GET', '',
+            function (data) {
+                
+                 var html = '';
+                data.map(function (e) {
+                    html += '<option value="' + e.codigoTipodocumento + '">' + e.descripcion + '</option>';
+                });
+                $('#cboTipoDocumentoEmpleado').html(html);
+                
+                return;
+                var html = '';
+                data.map(function (e) {
+                    html += '<option value="' + e.codigoPais + '">' + e.descripcion + '</option>';
+                });
+                $('#cboPaisEmpleado').html(html);
+
+                console.log(data);
+                return;
+                data.map(function (e) {
+                    e.name = e.descripcion;
+                });
+                $("#txtEmpleadorEmpleado").data('typeahead').source = data;
+            },
+            function (data) {
+                alert('Error al consultar REST: Tipo Documento');
+            });
+
+
+
+</script>

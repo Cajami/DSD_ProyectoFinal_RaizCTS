@@ -12,6 +12,7 @@ import com.raiz.entidades.Empresa;
 import com.raiz.entidades.ExcepcionTasa;
 import com.raiz.entidades.Pais;
 import com.raiz.entidades.Perfil;
+import com.raiz.entidades.TipoDocumento;
 import com.raiz.entidades.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -398,6 +399,80 @@ public class Mantenimiento {
         }
     }
 
+    
+    
+    
+
+    /*
+==============================================================================================================================================
+    MANTENIMIENTO TIPO DOCUMENTO
+==============================================================================================================================================
+     */
+ /*REGISTRAMOS TIPO DOCUMENTO*/
+    public String registrarTipoDocumento(TipoDocumento tipoDocumento) {
+        em.persist(tipoDocumento);
+        return "Se registró Tipo Documento";
+    }
+
+    /*LISTAMOS TODOS LOS TIPOS DE DOCUMENTOS*/
+    public List<TipoDocumento> listarTipoDocumentos() {
+        Query q = em.createQuery("SELECT e FROM TipoDocumento e");
+        return q.getResultList();
+    }
+
+    /*BUSCAMOS UN TIPO DOCUMENTO*/
+    public TipoDocumento buscarTipoDocumento(Integer idTipoDocumento) {
+        return em.find(TipoDocumento.class, idTipoDocumento);
+    }
+
+    /*ACTUALIZAR UN TIPO DE DOCUMENTO*/
+    public String actualizarTipoDocumento(int idTipoDocumento, TipoDocumento tipoDocumento) {
+        TipoDocumento p = em.find(TipoDocumento.class, idTipoDocumento);
+
+        if (p == null) {
+            return "Tipo Documento No encontrado";
+        } else {
+            p.setDescripcion(tipoDocumento.getDescripcion());
+
+            em.merge(p);
+            return "Se actualizó Tipo Documento";
+        }
+    }
+
+    /*ELIMINAR TIPO DOCUMENTO*/
+    public String eliminarTipoDocumento(int idTipoDocumento) {
+        TipoDocumento p = em.find(TipoDocumento.class, idTipoDocumento);
+
+        if (p == null) {
+            return "Tipo Documento No encontrado";
+        } else {
+            em.getTransaction().begin();
+            em.remove(p);
+            em.getTransaction().commit();
+            return "Se eliminó Tipo Documento";
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*
 ==============================================================================================================================================
     MANTENIMIENTO USUARIOS

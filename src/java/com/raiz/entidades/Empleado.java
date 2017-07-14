@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Usuario
+ * @author JAVIER-PC
  */
 @Entity
 @Table(name = "empleado")
@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Empleado.findByNombres", query = "SELECT e FROM Empleado e WHERE e.nombres = :nombres")
     , @NamedQuery(name = "Empleado.findByFechaNacimiento", query = "SELECT e FROM Empleado e WHERE e.fechaNacimiento = :fechaNacimiento")
     , @NamedQuery(name = "Empleado.findByDomicilio", query = "SELECT e FROM Empleado e WHERE e.domicilio = :domicilio")
-    , @NamedQuery(name = "Empleado.findByEmail", query = "SELECT e FROM Empleado e WHERE e.email = :email")})
+    , @NamedQuery(name = "Empleado.findByEmail", query = "SELECT e FROM Empleado e WHERE e.email = :email")
+    , @NamedQuery(name = "Empleado.findByCodigoEmpresa", query = "SELECT e FROM Empleado e WHERE e.codigoEmpresa = :codigoEmpresa")})
 public class Empleado implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -91,6 +92,10 @@ public class Empleado implements Serializable {
     @Size(max = 50)
     @Column(name = "EMAIL")
     private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "CODIGO_EMPRESA")
+    private int codigoEmpresa;
 
     public Empleado() {
     }
@@ -99,7 +104,7 @@ public class Empleado implements Serializable {
         this.codigoEmpleado = codigoEmpleado;
     }
 
-    public Empleado(Integer codigoEmpleado, int codigoPais, int codigoTipdoc, String nroDoc, String apellidoPaterno, String apellidoMaterno, String nombres, Date fechaNacimiento, String domicilio) {
+    public Empleado(Integer codigoEmpleado, int codigoPais, int codigoTipdoc, String nroDoc, String apellidoPaterno, String apellidoMaterno, String nombres, Date fechaNacimiento, String domicilio, int codigoEmpresa) {
         this.codigoEmpleado = codigoEmpleado;
         this.codigoPais = codigoPais;
         this.codigoTipdoc = codigoTipdoc;
@@ -109,6 +114,7 @@ public class Empleado implements Serializable {
         this.nombres = nombres;
         this.fechaNacimiento = fechaNacimiento;
         this.domicilio = domicilio;
+        this.codigoEmpresa = codigoEmpresa;
     }
 
     public Integer getCodigoEmpleado() {
@@ -189,6 +195,14 @@ public class Empleado implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getCodigoEmpresa() {
+        return codigoEmpresa;
+    }
+
+    public void setCodigoEmpresa(int codigoEmpresa) {
+        this.codigoEmpresa = codigoEmpresa;
     }
 
     @Override
