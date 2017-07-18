@@ -19,21 +19,21 @@
     <div class="row margin-top-10">
         <div class="col-sm-4">
             Apellido Paterno
-            <input type="text" class="form-control" id="txtApellidoPaternoEmpleado" />
+            <input type="text" class="form-control text-uppercase" id="txtApellidoPaternoEmpleado" />
         </div>
         <div class="col-sm-4">
             Apellido Materno
-            <input type="text" class="form-control" id="txtApellidoMaternoEmpleado" />
+            <input type="text" class="form-control text-uppercase" id="txtApellidoMaternoEmpleado" />
         </div>
         <div class="col-sm-4">
             Nombres
-            <input type="text" class="form-control" id="txtNombresEmpleado" />
+            <input type="text" class="form-control text-uppercase" id="txtNombresEmpleado" />
         </div>
     </div>
     <div class="row margin-top-10">
         <div class="col-sm-8">
-            Dirección:
-            <input type="text" class="form-control" id="txtDireccionEmpleado" />
+            DirecciÃƒÂ³n:
+            <input type="text" class="form-control text-uppercase" id="txtDireccionEmpleado" />
         </div>
         <div class="col-sm-4">
             Fecha Nacimiento:
@@ -45,20 +45,11 @@
 
         <div class="col-sm-4">
             Email:
-            <input type="text" class="form-control" id="txtEmailEmpleado" />
+            <input type="text" class="form-control text-uppercase" id="txtEmailEmpleado" />
         </div>
         <div class="col-sm-8">
             Empleador:
-            <input type="text" class="form-control" id="txtEmpleadorEmpleado" />
-
-            <!--<div class="input-group">
-                <input type="text" class="form-control" />
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
-                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                    </button>
-                </span>
-            </div>-->
+            <input type="text" class="form-control text-uppercase" id="txtEmpleadorEmpleado" />
         </div>
     </div>
     <div class="row margin-top-10">
@@ -84,58 +75,111 @@
         $(this).select();
     });
 
-    QueryAJAX('empresa', 'GET', '',
-            function (data) {
+    $('#txtFechaNacimientoEmpleado').on('keydown', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }).datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+    });
 
-                data.map(function (e) {
-                    e.name = e.descripcion;
-                });
-                $("#txtEmpleadorEmpleado").data('typeahead').source = data;
+    $('#btnGuardarCliente').on('click', function () {
+        var fecha = $('#txtFechaNacimientoEmpleado').val();
+        fecha = fecha.substr(6, 4) + '/' + fecha.substr(3, 2) + '/' + fecha.substr(0, 2);
+
+        var empresaSeleccionada = $('#txtEmpleadorEmpleado').typeahead("getActive");
+
+        var dataGuardar = {
+            codigoEmpleado: null,
+            codigoPais: $('#cboPaisEmpleado').val(),
+            codigoTipdoc: $('#cboTipoDocumentoEmpleado').val(),
+            nroDoc: $('#txtDocumentoIdentidadEmpleado').val().trim(),
+            apellidoPaterno: $('#txtApellidoPaternoEmpleado').val().toUpperCase().trim(),
+            apellidoMaterno: $('#txtApellidoMaternoEmpleado').val().toUpperCase().trim(),
+            nombres: $('#txtNombresEmpleado').val().toUpperCase().trim(),
+            //fechaNacimiento: fecha,
+            fechaNacimiento: $('#txtFechaNacimientoEmpleado').val(),
+
+            domicilio: $('#txtDireccionEmpleado').val().toUpperCase().trim(),
+            email: $('#txtEmailEmpleado').val().toUpperCase().trim(),
+            codigoEmpresa: empresaSeleccionada.codigoEmpresa
+        }
+
+        //console.log(JSON.stringify(dataGuardar))
+
+
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/empleado",
+            dataType: 'JSON',
+            data: dataGuardar,
+            contentType: "application/json; charset=utf-8",
+            success: function (jsondata) {
+
             },
-            function (data) {
-                alert('Error al consultar REST: Empresas');
-            });
+            error: function (err) {
 
-    QueryAJAX('pais', 'GET', '',
-            function (data) {
-                var html = '';
-                data.map(function (e) {
-                    html += '<option value="' + e.codigoPais + '">' + e.descripcion + '</option>';
+            }
+        });
+
+        return;
+
+        /*TRAER TODOS LOS TIPOS DE DOCUMENTO*/
+        QueryAJAX('insertEmpleado', 'POST',
+                JSON.stringify(dataGuardar),
+                function (data) {
+                    console.log(data);
+                },
+                function (data) {
+                    alert('Error al consultar REST: Guardar Empleado');
                 });
-                $('#cboPaisEmpleado').html(html);
-            },
-            function (data) {
-                alert('Error al consultar REST: Paises');
-            });
 
 
-    QueryAJAX('tipoDocumento', 'GET', '',
-            function (data) {
-                
-                 var html = '';
-                data.map(function (e) {
-                    html += '<option value="' + e.codigoTipodocumento + '">' + e.descripcion + '</option>';
+
+    });
+
+
+    function InicioPaginaCliente() {
+        /*TRAER TODAS LAS EMPRESAS*/
+        QueryAJAX('empresa', 'GET', '',
+                function (data) {
+                    data.map(function (e) {
+                        e.name = e.descripcion;
+                    });
+                    $("#txtEmpleadorEmpleado").data('typeahead').source = data;
+
+                    /*TRAER TODOS LOS PAISS*/
+                    QueryAJAX('pais', 'GET', '',
+                            function (data) {
+                                var html = '';
+
+                                data.map(function (e) {
+                                    html += '<option value="' + e.codigoPais + '">' + e.descripcion + '</option>';
+                                });
+                                $('#cboPaisEmpleado').html(html).prop('selectedIndex', -1);
+
+                                /*TRAER TODOS LOS TIPOS DE DOCUMENTO*/
+                                QueryAJAX('tipoDocumento', 'GET', '',
+                                        function (data) {
+                                            html = '';
+                                            data.map(function (e) {
+                                                html += '<option value="' + e.codigoTipoDocumento + '">' + e.descripcion + '</option>';
+                                            });
+                                            $('#cboTipoDocumentoEmpleado').html(html).prop('selectedIndex', -1);
+                                        },
+                                        function (data) {
+                                            alert('Error al consultar REST');
+                                        });
+                            },
+                            function (data) {
+                                alert('Error al consultar REST');
+                            });
+                },
+                function (data) {
+                    alert('Error al consultar REST: PAIS');
                 });
-                $('#cboTipoDocumentoEmpleado').html(html);
-                
-                return;
-                var html = '';
-                data.map(function (e) {
-                    html += '<option value="' + e.codigoPais + '">' + e.descripcion + '</option>';
-                });
-                $('#cboPaisEmpleado').html(html);
-
-                console.log(data);
-                return;
-                data.map(function (e) {
-                    e.name = e.descripcion;
-                });
-                $("#txtEmpleadorEmpleado").data('typeahead').source = data;
-            },
-            function (data) {
-                alert('Error al consultar REST: Tipo Documento');
-            });
-
-
+    }
+    InicioPaginaCliente();
 
 </script>
