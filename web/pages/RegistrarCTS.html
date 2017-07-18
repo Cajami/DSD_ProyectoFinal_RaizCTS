@@ -1,24 +1,69 @@
 ﻿<div class="container">
-    <div class="row margin-top-10">
-        <div class="col-sm-12">
-            Cliente
 
+    <div class="row margin-top-10">
+
+        <div class="col-sm-6">
             <div class="input-group">
-                <input type="text" class="form-control">
+                <span class="input-group-addon" >Nro Documento:</span>
+                <input type="text" class="form-control text-center" id="txtDniEmpleadoBuscar" >
+
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
-                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                    <button class="btn btn-default" type="button" id="btnBuscarEmpleado">
+                        <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </span>
-            </div><!-- /input-group -->
+            </div>
         </div>
+
+        <div class="col-sm-3"></div>
+        <div class="col-sm-1">
+            <div class="well-sm">
+                CodEmp:
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" class="form-control text-center" placeholder="Codigo Empleado" id="txtCodigoEmpleado" />
+        </div>
+
     </div>
+    <hr>
+
     <div class="row margin-top-10">
-        <div class="col-sm-12">
-            Empleador
-            <input type="text" class="form-control" />
+        <div class="col-sm-4">
+            Apellido Paterno
+            <input type="text" class="form-control text-uppercase" id="txtApellidoPaternoEmpleado" />
+        </div>
+        <div class="col-sm-4">
+            Apellido Materno
+            <input type="text" class="form-control text-uppercase" id="txtApellidoMaternoEmpleado" />
+        </div>
+        <div class="col-sm-4">
+            Nombres
+            <input type="text" class="form-control text-uppercase" id="txtNombresEmpleado" />
         </div>
     </div>
+
+    <hr>
+
+
+    <div class="row margin-top-10">
+        <div class="col-sm-2">
+            CodEmp:
+            <input type="text" class="form-control text-center" id="txtCodigoEmpresa"/>
+        </div>
+        <div class="col-sm-7">
+            Empleador
+            <input type="text" class="form-control" id="txtEmpleador" />
+        </div>
+
+        <div class="col-sm-3">
+            RUC
+            <input type="text" class="form-control text-center" id="txtRuc" />
+        </div>
+    </div>
+
+    <hr>
+
     <div class="row margin-top-10">
         <div class="col-sm-3">
             Condición:
@@ -42,3 +87,56 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+    $('#txtCodigoEmpleado,#txtApellidoPaternoEmpleado,#txtApellidoMaternoEmpleado,#txtNombresEmpleado,#txtEmpleador,#txtRuc,#txtCodigoEmpresa').on('keydown', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    $('#btnBuscarEmpleado').on('click', function () {
+        var documento = $('#txtDniEmpleadoBuscar').val().trim();
+
+        if (documento.length == 0) {
+            alert('Debe ingresar un nro de documento a buscar');
+            return;
+        }
+
+        /*BUSCAMOS AL EMPLEADO*/
+        QueryAJAX('empleado/' + documento, 'GET',
+                '',
+                function (data) {
+                    if (typeof data == 'undefined') {
+                        alert('Empleado no se encuentra');
+                        $('#txtDniEmpleadoBuscar').select().focus();
+                        return;
+                    }
+                    $('#txtCodigoEmpleado').val(data.codigoEmpleado);
+                    $('#txtApellidoPaternoEmpleado').val(data.apellidoMaterno);
+                    $('#txtApellidoMaternoEmpleado').val(data.apellidoPaterno);
+                    $('#txtNombresEmpleado').val(data.nombres);
+
+                    /*BUSCAMOS AL EMPLEADOR*/
+                    QueryAJAX('empresa/' + data.codigoEmpresa, 'GET', '',
+                            function (dataEm) {
+                                $('#txtCodigoEmpresa').val(dataEm.codigoEmpresa);
+                                $('#txtEmpleador').val(dataEm.descripcion);
+                                $('#txtRuc').val(dataEm.ruc);
+                            },
+                            function (dataEm) {
+                                alert('Error al consultar REST: Buscar Empresa');
+                            });
+                },
+                function (data) {
+                    alert('Error al consultar REST: Buscar Empleado');
+                });
+    });
+
+    $('#txtDniEmpleadoBuscar').on('keypress', function (e) {
+        if (e.which == 13) {//ENTER
+            $('#btnBuscarEmpleado').trigger('click');
+        }
+    })
+</script>

@@ -50,8 +50,15 @@ public class Mantenimiento {
     }
 
     /*BUSCAMOS UN EMPLEADO*/
-    public Empleado buscarEmpleado(Integer idEmpleado) {
-        return em.find(Empleado.class, idEmpleado);
+    public Empleado buscarEmpleado(Integer nroDocumento) {
+        Query q = em.createQuery("SELECT e FROM Empleado e WHERE e.nroDoc = '" + nroDocumento.toString() + "'");
+        List<Empleado> emple = q.getResultList();
+        if (emple.size() == 0) {
+            return null;
+        } else {
+            return emple.get(0);
+        }
+        //return em.find(Empleado.class, idEmpleado);
     }
 
     /*ACTUALIZAR UN EMPLEADO*/
@@ -120,6 +127,8 @@ public class Mantenimiento {
             return "Empresa No encontrada";
         } else {
             p.setDescripcion(empresa.getDescripcion());
+            p.setDireccion(empresa.getDireccion());
+
             em.merge(p);
             return "Se actualizaron datos de la Empresa";
         }
@@ -399,10 +408,6 @@ public class Mantenimiento {
         }
     }
 
-    
-    
-    
-
     /*
 ==============================================================================================================================================
     MANTENIMIENTO TIPO DOCUMENTO
@@ -452,27 +457,7 @@ public class Mantenimiento {
             return "Se eliminó Tipo Documento";
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /*
 ==============================================================================================================================================
     MANTENIMIENTO USUARIOS

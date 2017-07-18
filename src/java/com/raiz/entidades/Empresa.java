@@ -29,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")
     , @NamedQuery(name = "Empresa.findByCodigoEmpresa", query = "SELECT e FROM Empresa e WHERE e.codigoEmpresa = :codigoEmpresa")
-    , @NamedQuery(name = "Empresa.findByDescripcion", query = "SELECT e FROM Empresa e WHERE e.descripcion = :descripcion")})
+    , @NamedQuery(name = "Empresa.findByRuc", query = "SELECT e FROM Empresa e WHERE e.ruc = :ruc")
+    , @NamedQuery(name = "Empresa.findByDescripcion", query = "SELECT e FROM Empresa e WHERE e.descripcion = :descripcion")
+    , @NamedQuery(name = "Empresa.findByDireccion", query = "SELECT e FROM Empresa e WHERE e.direccion = :direccion")})
 public class Empresa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,9 +42,19 @@ public class Empresa implements Serializable {
     private Integer codigoEmpresa;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "RUC")
+    private String ruc;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "DESCRIPCION")
     private String descripcion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "DIRECCION")
+    private String direccion;
 
     public Empresa() {
     }
@@ -51,9 +63,11 @@ public class Empresa implements Serializable {
         this.codigoEmpresa = codigoEmpresa;
     }
 
-    public Empresa(Integer codigoEmpresa, String descripcion) {
+    public Empresa(Integer codigoEmpresa, String ruc, String descripcion, String direccion) {
         this.codigoEmpresa = codigoEmpresa;
+        this.ruc = ruc;
         this.descripcion = descripcion;
+        this.direccion = direccion;
     }
 
     public Integer getCodigoEmpresa() {
@@ -64,12 +78,28 @@ public class Empresa implements Serializable {
         this.codigoEmpresa = codigoEmpresa;
     }
 
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     @Override
