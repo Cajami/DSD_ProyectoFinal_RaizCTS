@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.2.6-MariaDB - mariadb.org binary distribution
+-- VersiÃ³n del servidor:         10.2.6-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
--- HeidiSQL Versión:             9.4.0.5125
+-- HeidiSQL VersiÃ³n:             9.4.0.5125
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -65,31 +65,40 @@ CREATE TABLE IF NOT EXISTS `empleado` (
   `EMAIL` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
   `CODIGO_EMPRESA` int(11) NOT NULL,
   PRIMARY KEY (`CODIGO_EMPLEADO`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla bdraiz.empleado: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla bdraiz.empleado: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `empleado` DISABLE KEYS */;
 INSERT INTO `empleado` (`CODIGO_EMPLEADO`, `CODIGO_PAIS`, `CODIGO_TIPDOC`, `NRO_DOC`, `APELLIDO_PATERNO`, `APELLIDO_MATERNO`, `NOMBRES`, `FECHA_NACIMIENTO`, `DOMICILIO`, `EMAIL`, `CODIGO_EMPRESA`) VALUES
-	(1, 1, 1, '4423154', 'PEREZ', 'PADILLA', 'PEPITO', '1980-04-20 00:00:00', 'CALLE SIN NUMERO MZ O LT 15', 'PEPITO@GMAIL.COM', 1);
+	(1, 1, 1, '4423154', 'PEREZ', 'PADILLA', 'PEPITO', '1980-04-20 00:00:00', 'CALLE SIN NUMERO MZ O LT 15', 'PEPITO@GMAIL.COM', 1),
+	(2, 1, 1, '41414548', 'CASTILLON', 'SIUCE', 'RAUL EUGENIO', '1980-04-26 00:00:00', 'JR ANTOFAGASTA 2174', 'RAUL@GMAIL.COM', 2),
+	(3, 1, 1, '85858545', 'GOMEZ', 'MANSILLA', 'GLORIA VERONI', '1978-04-06 00:00:00', 'JR BELLO HORIZONTE 1699', 'GLORIA@GMAIL.COM', 2),
+	(4, 1, 1, '96523541', 'MONTES', 'SANCHEZ', 'OSCAR TEODOSI', '1985-12-11 00:00:00', 'CL JORGE CHAVEZ 379', 'OSCAR@GMAIL.COM', 3),
+	(5, 1, 1, '75412500', 'ORTIZ', 'OLIVOS', 'AMALIA PATRICIA', '1981-11-30 00:00:00', 'UR UR PERUAV LIMA 3839', 'PATRICIA@GMAIL.COM', 4),
+	(6, 1, 1, '65415985', 'MURGUIA', 'PINO DE BARRENA', 'DORA', '1975-01-15 00:00:00', 'AV SUCRE 1173 Int: 35', 'DORA@GMAIL.COM', 1),
+	(7, 1, 1, '85200012', 'DIAZ', 'YENGLE', 'LUCILA VIOLETA', '1985-02-28 00:00:00', 'CL EUSEBIO GALVEZ 174', 'VIOLETA@GMAIL.COM', 3);
 /*!40000 ALTER TABLE `empleado` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bdraiz.empresa
 DROP TABLE IF EXISTS `empresa`;
 CREATE TABLE IF NOT EXISTS `empresa` (
   `CODIGO_EMPRESA` int(11) NOT NULL AUTO_INCREMENT,
+  `RUC` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
   `DESCRIPCION` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `DIRECCION` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`CODIGO_EMPRESA`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- Volcando datos para la tabla bdraiz.empresa: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` (`CODIGO_EMPRESA`, `DESCRIPCION`) VALUES
-	(1, 'TELEFONICA'),
-	(2, 'CIBERTEC'),
-	(3, 'GLORIA'),
-	(4, 'METRO'),
-	(5, 'SAGA FALABELLA'),
-	(6, 'COBRA PERU');
+INSERT INTO `empresa` (`CODIGO_EMPRESA`, `RUC`, `DESCRIPCION`, `DIRECCION`) VALUES
+	(1, '15452548541', 'TELEFONICA', 'CL VALDEZ, FULGENCIO 505 Piso: 2'),
+	(2, '65254857485', 'CIBERTEC', 'UR UR ARCO IRISPJ SENDA DORADA 0 Int: 303'),
+	(3, '96352154012', 'GLORIA', 'AV BOLIVIA 1091 Piso: 2 Int: 202'),
+	(4, '90120152410', 'METRO', 'CL LA TORRE BALTAZAR 470 Int: 11'),
+	(5, '80352102541', 'SAGA FALABELLA', 'JR JR REBECA OQUENDO 409 CD UNICO  706  '),
+	(6, '21023254857', 'COBRA PERU', 'UR UR ORBEACL ECHENIQUE 306 Piso: 10 Int: 1001'),
+	(7, '78987456548', 'lari construcciones', 'ate vitarte');
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bdraiz.empresa_empleado

@@ -1,33 +1,152 @@
 ﻿<div class="container">
-    <div class="row margin-top-10">
-        <div class="col-sm-2">
-            RUC:
+
+
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#ListadoEmpleadores" aria-controls="home" role="tab" data-toggle="tab">Listado</a></li>
+            <li role="presentation"><a href="#NuevoEmpleador" aria-controls="profile" role="tab" data-toggle="tab">Nuevo Empleador</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="ListadoEmpleadores">
+                <div class="row margin-top-10">
+
+                    <div class="col-sm-8">
+
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default" id="btnRegrescarEmpleador">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                                Refrescar</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        Total registros: <span class="negrita" id="spanTotalEmpresas">0</span>
+                    </div>
+                </div>
+
+                <div class="row margin-top-10">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered" id="tablaEmpleadores">
+                            <thead class="text-center bg-primary negrita">
+                                <tr>
+                                    <td>CodigoEmpresa</td>
+                                    <td>RUC</td>
+                                    <td>Razón Social</td>
+                                    <td>Dirección</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="NuevoEmpleador">
+
+
+                <div class="row margin-top-10">
+                    <div class="col-sm-2">
+                        RUC:
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="txtRucEmpleador"/>
+                    </div>
+
+                </div>
+                <div class="row margin-top-10">
+                    <div class="col-sm-12">
+                        Razón Social:
+                        <input type="text" class="form-control text-uppercase" id="txtRazonSocialEmpleador"/>
+                    </div>
+                </div>
+
+                <div class="row margin-top-10">
+                    <div class="col-sm-12">
+                        Dirección Fiscal:
+                        <input type="text" class="form-control text-uppercase" id="txtDireccionEmpleador"/>
+                    </div>
+                </div>
+
+                <div class="row margin-top-10" style="margin-top: 45px;">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary pull-right" id="btnGuardarEmpleador">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            GUARDAR EMPLEADOR
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" />
-        </div>
-        
-    </div>
-    <div class="row margin-top-10">
-        <div class="col-sm-12">
-            Razón Social:
-            <input type="text" class="form-control text-uppercase" />
-        </div>
+
     </div>
 
-    <div class="row margin-top-10">
-        <div class="col-sm-12">
-            Dirección Fiscal:
-            <input type="text" class="form-control text-uppercase" />
-        </div>
-    </div>
 
-    <div class="row margin-top-10" style="margin-top: 45px;">
-        <div class="col-sm-12">
-            <button class="btn btn-primary pull-right">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                GUARDAR EMPLEADOR
-            </button>
-        </div>
-    </div>
 </div>
+
+<script>
+
+
+    $('#btnRegrescarEmpleador').on('click', function () {
+        this.blur();
+        /*TRAER TODAS LAS EMPRESAS*/
+        QueryAJAX('empresa', 'GET',
+                '',
+                function (data) {
+                    var html = ''
+                    data.map(function (e) {
+                        html += '<tr>' +
+                                '<td>' + e.codigoEmpresa + '</td>' +
+                                '<td>' + e.ruc + '</td>' +
+                                '<td>' + e.descripcion + '</td>' +
+                                '<td>' + e.direccion + '</td>' +
+                                '</tr>';
+                    });
+
+
+                    $('#tablaEmpleadores tbody').html(html);
+                    $('#spanTotalEmpresas').html(data.length);
+                },
+                function (data) {
+                    alert('Error al consultar REST: GET EMPLEADOS');
+                });
+    });
+
+    $('#btnGuardarEmpleador').on('click', function () {
+        var ruc = $('#txtRucEmpleador').val().trim(),
+                razonSocial = $('#txtRazonSocialEmpleador').val().trim(),
+                direccion = $('#txtDireccionEmpleador').val().trim();
+
+        var dataGuardar = {
+            codigoEmpresa: null,
+            ruc: ruc,
+            descripcion: razonSocial,
+            direccion: direccion
+        }
+
+
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/empresa",
+            dataType: 'JSON',
+            data: JSON.stringify(dataGuardar),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == 'Se registró Empresa') {
+                    alert('Se registró satisfactoriamente la empresa');
+                    $('#txtRucEmpleador,#txtRazonSocialEmpleador,#txtDireccionEmpleador').val('');
+                    $('#txtRucEmpleador').focus();
+                }
+            },
+            error: function (err) {
+                alert('Error al conectarnos con el Servicio Web: Empresa')
+            }
+        });
+    });
+
+
+</script>

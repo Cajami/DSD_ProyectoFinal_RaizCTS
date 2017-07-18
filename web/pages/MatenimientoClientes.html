@@ -1,67 +1,159 @@
 <div class="container">
-    <div class="row margin-top-10">
 
-        <div class="col-sm-4">
-            Pais:
-            <select class="form-control" id="cboPaisEmpleado"></select>
+
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#ListadoCliente" aria-controls="home" role="tab" data-toggle="tab">Listado</a></li>
+            <li role="presentation"><a href="#NuevoCliente" aria-controls="profile" role="tab" data-toggle="tab">Nuevo Empleado</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="ListadoCliente">
+
+                <div class="row margin-top-10">
+
+                    <div class="col-sm-8">
+
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default" id="btnRegrescarClientes">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                                Refrescar</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        Total registros: <span class="negrita" id="spanTotalEmpleados">0</span>
+                    </div>
+                </div>
+
+                <div class="row margin-top-10">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered" id="tablaClientes">
+                            <thead class="text-center bg-success negrita">
+                                <tr>
+                                    <td>CodigoEmpleado</td>
+                                    <td>Apellido Paterno</td>
+                                    <td>Apellido Materno</td>
+                                    <td>Nombres</td>
+                                    <td>Domicilio</td>
+                                    <td>Email</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="NuevoCliente">
+
+
+
+                <div class="row margin-top-10">
+
+                    <div class="col-sm-4">
+                        Pais:
+                        <select class="form-control" id="cboPaisEmpleado"></select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        Tipo Documento:
+                        <select class="form-control" id="cboTipoDocumentoEmpleado"></select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        Documento Identidad:
+                        <input type="text" class="form-control" id="txtDocumentoIdentidadEmpleado" />
+                    </div>
+                </div>
+                <div class="row margin-top-10">
+                    <div class="col-sm-4">
+                        Apellido Paterno
+                        <input type="text" class="form-control text-uppercase" id="txtApellidoPaternoEmpleado" />
+                    </div>
+                    <div class="col-sm-4">
+                        Apellido Materno
+                        <input type="text" class="form-control text-uppercase" id="txtApellidoMaternoEmpleado" />
+                    </div>
+                    <div class="col-sm-4">
+                        Nombres
+                        <input type="text" class="form-control text-uppercase" id="txtNombresEmpleado" />
+                    </div>
+                </div>
+                <div class="row margin-top-10">
+                    <div class="col-sm-8">
+                        Direccion:
+                        <input type="text" class="form-control text-uppercase" id="txtDireccionEmpleado" />
+                    </div>
+                    <div class="col-sm-4">
+                        Fecha Nacimiento:
+                        <input type="text" class="form-control" id="txtFechaNacimientoEmpleado" />
+                    </div>
+                </div>
+
+                <div class="row margin-top-10">
+
+                    <div class="col-sm-4">
+                        Email:
+                        <input type="text" class="form-control text-uppercase" id="txtEmailEmpleado" />
+                    </div>
+                    <div class="col-sm-8">
+                        Empleador:
+                        <input type="text" class="form-control text-uppercase" id="txtEmpleadorEmpleado" />
+                    </div>
+                </div>
+                <div class="row margin-top-10" style="margin-top: 45px;">
+                    <div class="col-sm-12">
+                        <button class="btn btn-success pull-right" id="btnGuardarCliente">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            GUARDAR CLIENTE
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="col-sm-4">
-            Tipo Documento:
-            <select class="form-control" id="cboTipoDocumentoEmpleado"></select>
-        </div>
-
-        <div class="col-sm-4">
-            Documento Identidad:
-            <input type="text" class="form-control" id="txtDocumentoIdentidadEmpleado" />
-        </div>
-    </div>
-    <div class="row margin-top-10">
-        <div class="col-sm-4">
-            Apellido Paterno
-            <input type="text" class="form-control text-uppercase" id="txtApellidoPaternoEmpleado" />
-        </div>
-        <div class="col-sm-4">
-            Apellido Materno
-            <input type="text" class="form-control text-uppercase" id="txtApellidoMaternoEmpleado" />
-        </div>
-        <div class="col-sm-4">
-            Nombres
-            <input type="text" class="form-control text-uppercase" id="txtNombresEmpleado" />
-        </div>
-    </div>
-    <div class="row margin-top-10">
-        <div class="col-sm-8">
-            Direccion:
-            <input type="text" class="form-control text-uppercase" id="txtDireccionEmpleado" />
-        </div>
-        <div class="col-sm-4">
-            Fecha Nacimiento:
-            <input type="text" class="form-control" id="txtFechaNacimientoEmpleado" />
-        </div>
     </div>
 
-    <div class="row margin-top-10">
 
-        <div class="col-sm-4">
-            Email:
-            <input type="text" class="form-control text-uppercase" id="txtEmailEmpleado" />
-        </div>
-        <div class="col-sm-8">
-            Empleador:
-            <input type="text" class="form-control text-uppercase" id="txtEmpleadorEmpleado" />
-        </div>
-    </div>
-    <div class="row margin-top-10" style="margin-top: 45px;">
-        <div class="col-sm-12">
-            <button class="btn btn-success pull-right" id="btnGuardarCliente">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                GUARDAR CLIENTE
-            </button>
-        </div>
-    </div>
+
+
 </div>
 <script>
+
+
+    $('#btnRegrescarClientes').on('click', function () {
+        this.blur();
+        /*TRAER TODOS LOS CLIENTES*/
+        QueryAJAX('empleado', 'GET',
+                '',
+                function (data) {
+                    var html = ''
+                    data.map(function (e) {
+                        html += '<tr>' +
+                                '<td>' + e.codigoEmpleado + '</td>' +
+                                '<td>' + e.apellidoPaterno + '</td>' +
+                                '<td>' + e.apellidoMaterno + '</td>' +
+                                '<td>' + e.nombres + '</td>' +
+                                '<td>' + e.domicilio + '</td>' +
+                                '<td>' + e.email + '</td>' +
+                                '</tr>';
+                    });
+                    
+                    $('#tablaClientes tbody').html(html);
+                    $('#spanTotalEmpleados').html(data.length);
+                },
+                function (data) {
+                    alert('Error al consultar REST: GET EMPLEADOS');
+                });
+
+    });
 
 
     $('#txtEmpleadorEmpleado').typeahead({
