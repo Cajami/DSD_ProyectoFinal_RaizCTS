@@ -201,14 +201,14 @@ public class MantenimientoTest {
         container.close();
     }
 
-    //@Test
+    @Test
     public void testRegistrarCts() throws Exception {
         System.out.println("registrarCts");
-        Cts cts = null;
+        //Cts cts = null;
         EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
         String expResult = "";
-        String result = instance.registrarCts(cts);
+        String result = instance.registrarCts(1,7,0);
         assertEquals(expResult, result);
         container.close();
     }

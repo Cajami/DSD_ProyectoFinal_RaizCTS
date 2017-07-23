@@ -154,8 +154,11 @@ public class Mantenimiento {
 ==============================================================================================================================================
      */
  /*REGISTRAMOS CTS*/
-    public String registrarCts(Cts cts) {
-        em.persist(cts);
+    public String registrarCts(Integer usuario, Integer tasa, Integer traslado ) {
+        Query q = em.createNativeQuery("INSERT INTO CTS VALUES(?1,NOW(),NULL,NULL,?2,1,?3)");
+        q.setParameter(1, usuario);
+        q.setParameter(2, tasa);        
+        q.setParameter(3, traslado);
         return "Se registró Cts";
     }
 
