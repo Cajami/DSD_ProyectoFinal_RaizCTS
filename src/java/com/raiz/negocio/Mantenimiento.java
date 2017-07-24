@@ -9,6 +9,7 @@ import com.raiz.entidades.Aprobacion;
 import com.raiz.entidades.Cts;
 import com.raiz.entidades.Empleado;
 import com.raiz.entidades.Empresa;
+import com.raiz.entidades.EmpresaEmpleado;
 import com.raiz.entidades.ExcepcionTasa;
 import com.raiz.entidades.Pais;
 import com.raiz.entidades.Perfil;
@@ -38,9 +39,10 @@ public class Mantenimiento {
 ==============================================================================================================================================
      */
  /*REGISTRAMOS UN EMPLEADO*/
-    public String registrarEmpleado(Empleado empleado) {
+    public Integer registrarEmpleado(Empleado empleado) {
         em.persist(empleado);
-        return "Se registró Empleado";
+        em.flush();
+        return empleado.getCodigoEmpleado();
     }
 
     /*LISTAMOS TODOS LOS EMPLEADOS*/
@@ -154,10 +156,10 @@ public class Mantenimiento {
 ==============================================================================================================================================
      */
  /*REGISTRAMOS CTS*/
-    public String registrarCts(Integer usuario, Integer tasa, Integer traslado ) {
+    public String registrarCts(Integer usuario, Integer tasa, Integer traslado) {
         Query q = em.createNativeQuery("INSERT INTO CTS VALUES(?1,NOW(),NULL,NULL,?2,1,?3)");
         q.setParameter(1, usuario);
-        q.setParameter(2, tasa);        
+        q.setParameter(2, tasa);
         q.setParameter(3, traslado);
         return "Se registró Cts";
     }
@@ -512,4 +514,47 @@ public class Mantenimiento {
         }
     }
 
+    /*
+==============================================================================================================================================
+    MANTENIMIENTO EMPRESA EMPLEADOR
+==============================================================================================================================================
+     */
+ /*REGISTRAMOS*/
+    public String registrarEmpresaEmpleador(EmpresaEmpleado empreEmple) {
+        em.persist(empreEmple);
+        return "Se registró Empresa";
+    }
+
+    /*LISTAMOS*/
+    public List<EmpresaEmpleado> listarEmpresaEmpleadores() {
+        Query q = em.createQuery("SELECT e FROM EmpresaEmpleado e");
+        return q.getResultList();
+    }
+
+    /*BUSCAMOS*/
+    public List<Object> buscarEmpresasAsociadas(Integer id) {
+        //Query q = em.createQuery("SELECT e FROM EmpresaEmpleado e");
+        Query q = em.createNativeQuery("SELECT e.* FROM empresa e INNER JOIN empresa_empleado ee ON ee.CODIGO_EMPRESA = e.CODIGO_EMPRESA WHERE ee.CODIGO_EMPLEADO=" + id.toString());
+        return q.getResultList();
+    }
+
+    public List<Object> buscarEmpleadosAsociados(Integer id) {
+        //Query q = em.createQuery("SELECT e FROM EmpresaEmpleado e");
+        Query q = em.createNativeQuery("SELECT e.* FROM empleado e INNER JOIN empresa_empleado ee ON ee.CODIGO_EMPLEADO = e.CODIGO_EMPLEADO WHERE ee.CODIGO_EMPRESA==" + id.toString());
+        return q.getResultList();
+    }
+
+    /*ACTUALIZAR*/
+    public String actualizarEmpresaEmpleador(int id, EmpresaEmpleado empreEmple) {
+        EmpresaEmpleado p = em.find(EmpresaEmpleado.class, id);
+
+        if (p == null) {
+            return "Registro No encontrado";
+        } else {
+            p.setCodigoEmpresa(empreEmple.getCodigoEmpresa());
+            p.setCodigoEmpleado(empreEmple.getCodigoEmpleado());
+            em.merge(p);
+            return "Se actualizaron datos de la tabla";
+        }
+    }
 }

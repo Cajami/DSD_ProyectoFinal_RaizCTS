@@ -45,7 +45,7 @@ public class MantenimientoRestTest {
         Empleado empleado = null;
         MantenimientoRest instance = new MantenimientoRest();
         String expResult = "";
-        String result = instance.insertEmpleado(empleado);
+        Integer result = instance.insertEmpleado(empleado);
         assertEquals(expResult, result);
     }
 

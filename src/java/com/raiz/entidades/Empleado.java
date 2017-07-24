@@ -6,7 +6,6 @@
 package com.raiz.entidades;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -40,8 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Empleado.findByNombres", query = "SELECT e FROM Empleado e WHERE e.nombres = :nombres")
     , @NamedQuery(name = "Empleado.findByFechaNacimiento", query = "SELECT e FROM Empleado e WHERE e.fechaNacimiento = :fechaNacimiento")
     , @NamedQuery(name = "Empleado.findByDomicilio", query = "SELECT e FROM Empleado e WHERE e.domicilio = :domicilio")
-    , @NamedQuery(name = "Empleado.findByEmail", query = "SELECT e FROM Empleado e WHERE e.email = :email")
-    , @NamedQuery(name = "Empleado.findByCodigoEmpresa", query = "SELECT e FROM Empleado e WHERE e.codigoEmpresa = :codigoEmpresa")})
+    , @NamedQuery(name = "Empleado.findByEmail", query = "SELECT e FROM Empleado e WHERE e.email = :email")})
 public class Empleado implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -80,9 +76,9 @@ public class Empleado implements Serializable {
     private String nombres;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "FECHA_NACIMIENTO")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -92,10 +88,6 @@ public class Empleado implements Serializable {
     @Size(max = 50)
     @Column(name = "EMAIL")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "CODIGO_EMPRESA")
-    private int codigoEmpresa;
 
     public Empleado() {
     }
@@ -104,7 +96,7 @@ public class Empleado implements Serializable {
         this.codigoEmpleado = codigoEmpleado;
     }
 
-    public Empleado(Integer codigoEmpleado, int codigoPais, int codigoTipdoc, String nroDoc, String apellidoPaterno, String apellidoMaterno, String nombres, Date fechaNacimiento, String domicilio, int codigoEmpresa) {
+    public Empleado(Integer codigoEmpleado, int codigoPais, int codigoTipdoc, String nroDoc, String apellidoPaterno, String apellidoMaterno, String nombres, String fechaNacimiento, String domicilio) {
         this.codigoEmpleado = codigoEmpleado;
         this.codigoPais = codigoPais;
         this.codigoTipdoc = codigoTipdoc;
@@ -114,7 +106,6 @@ public class Empleado implements Serializable {
         this.nombres = nombres;
         this.fechaNacimiento = fechaNacimiento;
         this.domicilio = domicilio;
-        this.codigoEmpresa = codigoEmpresa;
     }
 
     public Integer getCodigoEmpleado() {
@@ -173,11 +164,11 @@ public class Empleado implements Serializable {
         this.nombres = nombres;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -195,14 +186,6 @@ public class Empleado implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getCodigoEmpresa() {
-        return codigoEmpresa;
-    }
-
-    public void setCodigoEmpresa(int codigoEmpresa) {
-        this.codigoEmpresa = codigoEmpresa;
     }
 
     @Override

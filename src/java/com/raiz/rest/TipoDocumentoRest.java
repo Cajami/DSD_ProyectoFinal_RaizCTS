@@ -41,6 +41,12 @@ public class TipoDocumentoRest {
     REST - MANTENIMIENTO TIPO DOCUMENTO
 ==============================================================================================================================================
      */
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<TipoDocumento> getTipoDocumentos() {
+        return mantenimiento.listarTipoDocumentos();
+    }
+ 
     
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -49,11 +55,7 @@ public class TipoDocumentoRest {
         return Rpsta;
     }
 
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<TipoDocumento> getTipoDocumentos() {
-        return mantenimiento.listarTipoDocumentos();
-    }
+
 
     @GET
     @Path("{id}")
@@ -77,5 +79,4 @@ public class TipoDocumentoRest {
         String Rpsta = mantenimiento.eliminarTipoDocumento(id);
         return Rpsta;
     }
-    
 }

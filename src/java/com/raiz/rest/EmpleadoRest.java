@@ -42,8 +42,8 @@ public class EmpleadoRest {
      */
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public String insertEmpleado(Empleado empleado) {
-        String Rpsta = mantenimiento.registrarEmpleado(empleado);
+    public Integer insertEmpleado(Empleado empleado) {
+        Integer Rpsta = mantenimiento.registrarEmpleado(empleado);
         return Rpsta;
     }
 

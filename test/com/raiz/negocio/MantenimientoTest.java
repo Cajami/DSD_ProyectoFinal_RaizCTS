@@ -62,14 +62,14 @@ public class MantenimientoTest {
         empleado.setApellidoPaterno("PINTO");
         empleado.setApellidoMaterno("LOACES");
         empleado.setNombres("XXXXXXX");
-        empleado.setFechaNacimiento(formatter.parse("11/08/1980"));
+        empleado.setFechaNacimiento("12/08/1980");
         empleado.setDomicilio("JR VILLAR CONTRALMIRANTE 478 Int: D");
         empleado.setEmail("pintoloaces@gmail.com");
 
         EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
         String expResult = "";
-        String result = instance.registrarEmpleado(empleado);
+        Integer result = instance.registrarEmpleado(empleado);
         System.out.println("Resultado: " + result);
         //assertEquals(expResult, result);
         container.close();
@@ -115,7 +115,7 @@ public class MantenimientoTest {
         empleado.setApellidoPaterno("PINTO");
         empleado.setApellidoMaterno("LOACES");
         empleado.setNombres("RICARDO AUGUSTO");
-        empleado.setFechaNacimiento(formatter.parse("05/03/1970"));
+        empleado.setFechaNacimiento("18/11/1985");
         empleado.setDomicilio("JR VILLAR CONTRALMIRANTE 478 Int: D");
         empleado.setEmail("pintoloaces@gmail.com");
 
