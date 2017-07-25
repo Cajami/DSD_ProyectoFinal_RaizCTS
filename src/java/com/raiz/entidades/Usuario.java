@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
     , @NamedQuery(name = "Usuario.findByCodigoUsuario", query = "SELECT u FROM Usuario u WHERE u.codigoUsuario = :codigoUsuario")
-    , @NamedQuery(name = "Usuario.findByDescripcion", query = "SELECT u FROM Usuario u WHERE u.descripcion = :descripcion")
+    , @NamedQuery(name = "Usuario.findByNombreUsuario", query = "SELECT u FROM Usuario u WHERE u.nombreUsuario = :descripcion")
     , @NamedQuery(name = "Usuario.findByFechaIngreso", query = "SELECT u FROM Usuario u WHERE u.fechaIngreso = :fechaIngreso")})
 public class Usuario implements Serializable {
 
@@ -45,8 +45,8 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "DESCRIPCION")
-    private String descripcion;
+    @Column(name = "NOMBRE_USUARIO")
+    private String nombreUsuario;
     @Basic(optional = false)
     @NotNull
     @Column(name = "FECHA_INGRESO")
@@ -62,7 +62,7 @@ public class Usuario implements Serializable {
 
     public Usuario(Integer codigoUsuario, String descripcion, Date fechaIngreso) {
         this.codigoUsuario = codigoUsuario;
-        this.descripcion = descripcion;
+        this.nombreUsuario = descripcion;
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -75,11 +75,11 @@ public class Usuario implements Serializable {
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return nombreUsuario;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescripcion(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public Date getFechaIngreso() {

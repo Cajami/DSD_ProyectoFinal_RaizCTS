@@ -1,142 +1,586 @@
 ﻿<div class="container">
 
-    <div class="row margin-top-10">
 
-        <div class="col-sm-6">
-            <div class="input-group">
-                <span class="input-group-addon" >Nro Documento:</span>
-                <input type="text" class="form-control text-center" id="txtDniEmpleadoBuscar" >
-
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="btnBuscarEmpleado">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </button>
-                </span>
-            </div>
-        </div>
-
-        <div class="col-sm-3"></div>
-        <div class="col-sm-1">
-            <div class="well-sm">
-                CodEmp:
-            </div>
-        </div>
-        <div class="col-sm-2">
-            <input type="text" class="form-control text-center" placeholder="Codigo Empleado" id="txtCodigoEmpleado" />
-        </div>
-
-    </div>
-    <hr>
-
-    <div class="row margin-top-10">
-        <div class="col-sm-4">
-            Apellido Paterno
-            <input type="text" class="form-control text-uppercase" id="txtApellidoPaternoEmpleado" />
-        </div>
-        <div class="col-sm-4">
-            Apellido Materno
-            <input type="text" class="form-control text-uppercase" id="txtApellidoMaternoEmpleado" />
-        </div>
-        <div class="col-sm-4">
-            Nombres
-            <input type="text" class="form-control text-uppercase" id="txtNombresEmpleado" />
-        </div>
-    </div>
-
-    <hr>
-
-
-    <div class="row margin-top-10">
-        <div class="col-sm-2">
-            CodEmp:
-            <input type="text" class="form-control text-center" id="txtCodigoEmpresa"/>
-        </div>
-        <div class="col-sm-7">
-            Empleador
-            <input type="text" class="form-control" id="txtEmpleador" />
-        </div>
-
-        <div class="col-sm-3">
-            RUC
-            <input type="text" class="form-control text-center" id="txtRuc" />
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="row margin-top-10">
-        <div class="col-sm-3">
-            Condición:
-            <select class="form-control">
-                <option>Nueva Cuenta</option>
-                <option>Traslado</option>
-            </select>
-        </div>
-        <div class="col-sm-3">
-            Saldo Inicial
-            <input type="text" class="form-control" />
-        </div>
-    </div>
-
-    <div class="row margin-top-10">
+    <div class="row">
         <div class="col-sm-12">
-            <button class="btn btn-default pull-right">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                REGISTRAR CTS
-            </button>
+
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item capaAcordion active">
+                        <div class="row margin-top-10">
+                            <div class="col-sm-12">
+                                <div class="btn-toolbar" role="toolbar" aria-label="...">
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-default" id="btnRefreshCts">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;
+                                            Refresh
+                                        </button>
+                                    </div>
+
+                                    <div class="btn-group pull-right" role="group" >
+                                        <button type="button" class="btn btn-primary" id="btnNuevoRegistroCTS">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                                            Nuevo Registro
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row margin-top-10">
+                            <div class="col-sm-12">
+
+                                <table class="table table-bordered" id="tablaListaCts">
+                                    <thead>
+                                        <tr class="bg-primary text-center negrita">
+                                            <td>Cod CTS</td>
+                                            <td>Nro Doc</td>
+                                            <td>Apellido Paterno</td>
+                                            <td>Apellido Materno</td>
+                                            <td>Nombres</td>
+                                            <td>RUC</td>
+                                            <td>Razón Social</td>
+                                            <td>Tasa</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row margin-top-10">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success negrita hidden" id="btnAsignarTasa">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;
+                                    Asignar Mejor Tasa
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="item capaAcordion" >
+                        <!--REGISTRAR NUEVO CTS-->
+
+                        <div class="row margin-top-10">
+                            <div class="col-sm-12">
+                                <h3 style="text-decoration: underline;color: #285289;">&#187; Nuevo Registro</h3>
+                            </div>
+                        </div>
+
+                        <div class="row margin-top-10">
+
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon" >Nro Documento:</span>
+                                    <input type="text" class="form-control text-center" id="txtDniEmpleadoBuscar" >
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="btnBuscarEmpleado">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-1">
+                                <div class="well-sm">
+                                    CodEmp:
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control text-center" placeholder="Codigo Empleado" id="txtCodigoEmpleado" />
+                            </div>
+
+                        </div>
+                        <hr>
+
+                        <div class="row margin-top-10">
+                            <div class="col-sm-4">
+                                Apellido Paterno
+                                <input type="text" class="form-control text-uppercase" id="txtApellidoPaternoEmpleado" />
+                            </div>
+                            <div class="col-sm-4">
+                                Apellido Materno
+                                <input type="text" class="form-control text-uppercase" id="txtApellidoMaternoEmpleado" />
+                            </div>
+                            <div class="col-sm-4">
+                                Nombres
+                                <input type="text" class="form-control text-uppercase" id="txtNombresEmpleado" />
+                            </div>
+                        </div>
+
+                        <hr>
+
+
+                        <div class="row margin-top-10">
+
+                            <div class="col-sm-7">
+                                Empleador
+                                <select class="form-control" id="cboEmpleador">
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2">
+                                CodEmp:
+                                <input type="text" class="form-control text-center" id="txtCodigoEmpresa"/>
+                            </div>
+
+                            <div class="col-sm-3">
+                                RUC
+                                <input type="text" class="form-control text-center" id="txtRuc" />
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row margin-top-10">
+                            <div class="col-sm-3">
+                                Condición:
+                                <select class="form-control" id="cboCondicionCts">
+                                    <option value="N">Nueva Cuenta</option>
+                                    <option value="T">Traslado</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3">
+                                Tasa:
+                                <input type="text" class="form-control text-center" readonly="readonly" id="txtTasaCts" />
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                Saldo Inicial
+                                <input type="text" class="form-control" id="txtSaldoInicialCts" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 30px;" >
+                            <div class="col-sm-12">
+
+                                <button class="btn btn-danger" data-target="#carousel-example-generic" data-slide-to="0">
+                                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>&nbsp;
+                                    Regresar
+                                </button>
+
+                                <button class="btn btn-primary btn-lg pull-right" id="btnGrabarCTS">
+                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    REGISTRAR CTS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item capaAcordion" >
+                        <!--MODIFICAR TASA-->
+
+                        <div class="row margin-top-10">
+                            <div class="col-sm-2">
+                                Cod CTS:
+                                <input type="text" class="form-control" readonly="readonly" id="txtCodigoCtsEdit"/>
+                            </div>
+
+                            <div class="col-sm-3">
+                                Cod Empleado:
+                                <input type="text" class="form-control" readonly="readonly" id="txtCodigoEmpleadoEdit"/>
+                            </div>
+
+                            <div class="col-sm-3">
+                                Nro Documento:
+                                <input type="text" class="form-control" readonly="readonly" id="txtNroDocumentoEdit"/>
+                            </div>
+
+                            <div class="col-sm-4">
+                                Usuario:
+                                <input type="text" class="form-control" readonly="readonly" id="txtNombreUsuarioEdit"/>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="col-sm-4">
+                                Apellido Paterno:
+                                <input type="text" class="form-control" readonly="readonly" id="txtApellidoPaternoEdit"/>
+                            </div>
+                            <div class="col-sm-4">
+                                Apellido Materno
+                                <input type="text" class="form-control" readonly="readonly" id="txtApellidoMaternoEdit"/>
+                            </div>
+                            <div class="col-sm-4">
+                                Nombres
+                                <input type="text" class="form-control" readonly="readonly" id="txtNombresMaternoEdit"/>
+                            </div>
+                        </div>
+
+                        <div class="row margin-top-10">
+                            <div class="col-sm-8">
+                                Empresa:
+                                <input type="text" class="form-control" readonly="readonly" id="txtRazonSocialEdit"/>
+                            </div>
+                            <div class="col-sm-4">
+                                RUC:
+                                <input type="text" class="form-control" readonly="readonly" id="txtRucEdit"/>
+                            </div>
+                        </div>
+
+                        <div class="row margin-top-10">
+                            <div class="col-sm-3">
+                                Fecha Registro:
+                                <input type="text" class="form-control" readonly="readonly" id="txtFechaRegistroEdit"/>
+                            </div>
+
+                            <div class="col-sm-3">
+                                Condición:
+                                <input type="text" class="form-control" readonly="readonly" id="txtCondicionEdit"/>
+                            </div>
+                            <div class="col-sm-3">
+                                Saldo:
+                                <input type="text" class="form-control" readonly="readonly" id="txtSaldoEdit"/>
+                            </div>
+                            <div class="col-sm-3">
+                                TASA:
+                                <input type="text" class="form-control text-center"  id="txtTasaEdit"/>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 30px;">
+                            <div class="col-sm-12">
+
+                                <button class="btn btn-danger" data-target="#carousel-example-generic" data-slide-to="0">
+                                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>&nbsp;
+                                    Regresar
+                                </button>
+
+
+                                <button class="btn btn-primary btn-lg pull-right" id="btnGuardarTasa">
+                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;
+                                    Guardar TASA
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-
-
-    $('#txtCodigoEmpleado,#txtApellidoPaternoEmpleado,#txtApellidoMaternoEmpleado,#txtNombresEmpleado,#txtEmpleador,#txtRuc,#txtCodigoEmpresa').on('keydown', function (e) {
+    var ArrayEmpresasAsociadas = [];
+    var CtsModificar = {};
+    $('#txtCodigoEmpleado,#txtApellidoPaternoEmpleado,#txtApellidoMaternoEmpleado,#txtNombresEmpleado,#txtRuc,#txtCodigoEmpresa').on('keydown', function (e) {
         e.preventDefault();
         e.stopPropagation();
     });
-
     $('#btnBuscarEmpleado').on('click', function () {
         var documento = $('#txtDniEmpleadoBuscar').val().trim();
-
         if (documento.length == 0) {
             alert('Debe ingresar un nro de documento a buscar');
             return;
         }
 
-        /*BUSCAMOS AL EMPLEADO*/
-        QueryAJAX('empleado/' + documento, 'GET',
-                '',
-                function (data) {
-                    if (typeof data == 'undefined') {
-                        alert('Empleado no se encuentra');
-                        $('#txtDniEmpleadoBuscar').select().focus();
-                        return;
-                    }
-                    $('#txtCodigoEmpleado').val(data.codigoEmpleado);
-                    $('#txtApellidoPaternoEmpleado').val(data.apellidoMaterno);
-                    $('#txtApellidoMaternoEmpleado').val(data.apellidoPaterno);
-                    $('#txtNombresEmpleado').val(data.nombres);
+        ShowCargando(true, 'Buscamos Empleado');
 
-                    /*BUSCAMOS AL EMPLEADOR*/
-                    QueryAJAX('empresa/' + data.codigoEmpresa, 'GET', '',
-                            function (dataEm) {
-                                $('#txtCodigoEmpresa').val(dataEm.codigoEmpresa);
-                                $('#txtEmpleador').val(dataEm.descripcion);
-                                $('#txtRuc').val(dataEm.ruc);
+        setTimeout(function () {
+
+            /*BUSCAMOS AL EMPLEADO*/
+            QueryAJAX('empleado/' + documento, 'GET',
+                    '',
+                    function (data) {
+                        if (typeof data == 'undefined') {
+                            alert('Empleado no se encuentra');
+                            $('#txtDniEmpleadoBuscar').select().focus();
+                            return;
+                        }
+                        $('#txtCodigoEmpleado').val(data.codigoEmpleado);
+                        $('#txtApellidoPaternoEmpleado').val(data.apellidoMaterno);
+                        $('#txtApellidoMaternoEmpleado').val(data.apellidoPaterno);
+                        $('#txtNombresEmpleado').val(data.nombres);
+                        /*BUSCAMOS TODOS LOS EMPLEADORES QUE TENGA*/
+                        $.ajax({
+                            type: 'GET',
+                            async: false,
+                            url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/empresa_empleado/empresa/" + data.codigoEmpleado,
+                            dataType: 'JSON',
+                            //data: JSON.stringify(dataGuardar),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                ShowCargando(false);
+
+                                if (data.length == 0) {
+                                    alert('Empleado no tiene ninguna empresa asociada');
+                                    return;
+                                }
+
+                                ArrayEmpresasAsociadas = data;
+                                var html = '';
+                                ArrayEmpresasAsociadas.map(function (e) {
+                                    html += '<option value="' + e.codigoEmpresa + '">' + e.descripcion.toUpperCase() + '</option>';
+                                });
+                                $('#cboEmpleador').html(html).prop('selectedIndex', -1);
+                                $('#btnGrabarCTS').prop('disabled', false);
                             },
-                            function (dataEm) {
-                                alert('Error al consultar REST: Buscar Empresa');
-                            });
-                },
-                function (data) {
-                    alert('Error al consultar REST: Buscar Empleado');
-                });
-    });
+                            error: function (err) {
+                                ShowCargando(false);
+                            }
+                        });
+                    },
+                    function (data) {
+                        ShowCargando(false);
+                        alert('Error al consultar REST: Buscar Empleado');
+                    });
+        }, 1000);
 
+    });
+    $('#cboEmpleador').on('change', function () {
+        var p = ArrayEmpresasAsociadas.map(function (e) {
+            return e.codigoEmpresa + ''
+        }).indexOf(this.value);
+        if (p == -1) {
+            alert('Error, no se encuentra empresa');
+            return;
+        }
+        $('#txtCodigoEmpresa').val(ArrayEmpresasAsociadas[p].codigoEmpresa);
+        $('#txtRuc').val(ArrayEmpresasAsociadas[p].ruc);
+    });
     $('#txtDniEmpleadoBuscar').on('keypress', function (e) {
         if (e.which == 13) {//ENTER
             $('#btnBuscarEmpleado').trigger('click');
+        } else {
+            $('#btnGrabarCTS').prop('disabled', true);
         }
     })
+
+
+    $('#btnRefreshCts').on('click', function () {
+        $('#tablaListaCts tbody').html('');
+        $('#btnAsignarTasa').addClass('hidden');
+
+        ShowCargando(true, 'Seleccionando todos los registros Cts');
+
+        setTimeout(function () {
+
+            $.ajax({
+                type: 'GET',
+                async: false,
+                url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/cts",
+                dataType: 'JSON',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    ShowCargando(false);
+
+                    var html = '';
+                    data.map(function (e) {
+                        html += '<tr rz-id="' + e.CODIGO_CTS + '" style="cursor: pointer;" onClick="SeleccionarRegistroCTS(this)">' +
+                                '<td>' + e.CODIGO_CTS + '</td>' +
+                                '<td>' + e.NRO_DOC + '</td>' +
+                                '<td>' + e.APELLIDO_PATERNO + '</td>' +
+                                '<td>' + e.APELLIDO_MATERNO + '</td>' +
+                                '<td>' + e.NOMBRES + '</td>' +
+                                '<td>' + e.RUC + '</td>' +
+                                '<td>' + e.DESCRIPCION + '</td>' +
+                                '<td>' + parseFloat(e.TASA).toFixed(2) + '</td>' +
+                                '<td class="text-center">' +
+                                (e.FECHA_MODIFICA.trim().length == 0 ? '<i class="fa fa-check" aria-hidden="true" title="CTS OK"></i>' : '<i class="fa fa-check-square-o" aria-hidden="true" title="Cts modificó Tasa"></i>') +
+                                '</td>' +
+                                '</tr>';
+                    });
+                    $('#tablaListaCts tbody').html(html);
+                },
+                error: function (err) {
+                    ShowCargando(false);
+                    alert('Error: Servicio Web CTS')
+                }
+            });
+        }, 1000);
+
+    });
+    function SeleccionarRegistroCTS(tr) {
+        $('#tablaListaCts tbody tr.registroSeleccionado').removeClass('registroSeleccionado');
+        $(tr).addClass('registroSeleccionado');
+        $('#btnAsignarTasa').removeClass('hidden');
+    }
+
+    $('#btnNuevoRegistroCTS').on('click', function () {
+        $('#txtDniEmpleadoBuscar,#txtCodigoEmpleado,#txtApellidoPaternoEmpleado,#txtApellidoMaternoEmpleado,#txtNombresEmpleado,#txtCodigoEmpresa,#txtRuc,#txtSaldoInicialCts').val('');
+        $('#cboEmpleador').html('').prop('selectedIndex', -1);
+        $('#carousel-example-generic').carousel(1);
+        $('#cboCondicionCts').prop('selectedIndex', -1);
+        $('#btnGrabarCTS').prop('disabled', true);
+    });
+    $('#btnAsignarTasa').on('click', function () {
+        var id = $('#tablaListaCts tbody tr.registroSeleccionado').attr('rz-id');
+
+        ShowCargando(true, 'Seleccionando Cts');
+
+        setTimeout(function () {
+
+            /*BUSCAMOS EL CTS SELECCIONADO*/
+            $.ajax({
+                type: 'GET',
+                async: false,
+                url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/cts/" + id,
+                dataType: 'JSON',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    ShowCargando(false);
+
+                    if (data == null) {
+                        alert('Error, web service devolvió null');
+                        return;
+                    }
+                    CtsModificar = data;
+                    $('#txtCodigoCtsEdit').val(data.CODIGO_CTS);
+                    $('#txtCodigoEmpleadoEdit').val(data.CODIGO_EMPLEADO);
+                    $('#txtNroDocumentoEdit').val(data.NRO_DOC);
+                    $('#txtApellidoPaternoEdit').val(data.APELLIDO_PATERNO);
+                    $('#txtApellidoMaternoEdit').val(data.APELLIDO_MATERNO);
+                    $('#txtNombresMaternoEdit').val(data.NOMBRES);
+                    $('#txtRazonSocialEdit').val(data.DESCRIPCION);
+                    $('#txtRucEdit').val(data.RUC);
+                    $('#txtFechaRegistroEdit').val(data.FECHA_INGRESO);
+                    $('#txtCondicionEdit').val(data.CONDICION == 'T' ? 'TRASLADO' : 'NUEVO');
+                    $('#txtSaldoEdit').val(data.SALDO);
+                    $('#txtTasaEdit').val(parseFloat(data.TASA).toFixed(2));
+                    
+                    $('#txtNombreUsuarioEdit').val(data.NOMBRE_USUARIO.toUpperCase());
+                    
+                    $('#carousel-example-generic').carousel(2);
+                },
+                error: function (err) {
+                    ShowCargando(false);
+                    alert('Error: Servicio Web CTS')
+                }
+            });
+
+        }, 1000);
+
+    });
+    $('#btnGuardarTasa').on('click', function () {
+        var tasa = $('#txtTasaEdit').val().trim();
+        if (!$.isNumeric(tasa)) {
+            alert('Ingrese una tasa valida');
+            return;
+        }
+
+        var dataGuardar = {
+            codigoCts: CtsModificar.CODIGO_CTS,
+            codigoEmpleado: CtsModificar.CODIGO_EMPLEADO,
+            codigoEmpresa: CtsModificar.CODIGO_EMPRESA,
+            fechaIngreso: CtsModificar.FECHA_INGRESO,
+            fechaModifica: FechaActual(),
+            tasa: tasa,
+            estado: CtsModificar.ESTADO,
+            condicion: CtsModificar.CONDICION,
+            saldo: CtsModificar.SALDO
+        };
+
+
+        ShowCargando(true, 'Guardando nueva tasa');
+
+        setTimeout(function () {
+
+            $.ajax({
+                type: 'PUT',
+                async: false,
+                url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/cts/" + CtsModificar.CODIGO_CTS,
+                dataType: 'JSON',
+                data: JSON.stringify(dataGuardar),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    ShowCargando(false);
+
+                    alert(data);
+                    $('#carousel-example-generic').carousel(0);
+                },
+                error: function (err) {
+                    ShowCargando(false);
+
+                    if (err.statusText == 'OK') {
+                        alert(err.responseText);
+                        $('#carousel-example-generic').carousel(0);
+
+                    } else {
+                        alert('Error: Servicio Web CTS')
+                    }
+                }
+            });
+        }, 1000);
+
+    });
+    $('#btnGrabarCTS').on('click', function () {
+        this.blur();
+        var dataGuardar = {
+            codigoCts: null,
+            codigoEmpleado: $('#txtCodigoEmpleado').val(),
+            codigoEmpresa: $('#txtCodigoEmpresa').val(),
+            fechaIngreso: FechaActual(),
+            fechaModifica: '',
+            tasa: $('#txtTasaCts').val(),
+            estado: 0,
+            condicion: $('#cboCondicionCts').val(),
+            saldo: $('#txtSaldoInicialCts').val(),
+            codigoUsuario: IdUsuarioLogeado
+        }
+
+        ShowCargando(true, 'Guardando CTS');
+
+        setTimeout(function () {
+
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/cts",
+                dataType: 'JSON',
+                data: JSON.stringify(dataGuardar),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    ShowCargando(false);
+
+                    alert(data);
+                    $('#carousel-example-generic').carousel(0)
+                },
+                error: function (err) {
+                    ShowCargando(false);
+                    if (err.statusText == 'OK') {
+                        alert(err.responseText);
+                        $('#carousel-example-generic').carousel(0);
+                    }
+                }
+            });
+        }, 1000);
+
+    });
+    /*FUNCION QUE DEVUELVE LA FECHA ACTUAL EN FORMATO DD/MM/YYYY*/
+    function FechaActual(fecha) {
+        /*
+         FECHA DEBE SER TIPO NEW DATE()
+         */
+        if (typeof fecha == 'undefined')
+            fecha = new Date();
+        return ('0' + (fecha.getDate())).slice(-2) + //DIA
+                '/' +
+                ('0' + (fecha.getMonth() + 1)).slice(-2) + //MES
+                '/' +
+                fecha.getFullYear() +
+                ' ' +
+                ('0' + fecha.getHours()).slice(-2) + //HORA
+                ':' +
+                ('0' + fecha.getMinutes()).slice(-2); //MINUTO;
+    }
+
+
+
+
+    function InicioPaginaCts() {
+        $('div.capaAcordion').css('height', $(document).height() - 250);
+        $('#txtTasaCts').val('3.0');
+    }
+
+    InicioPaginaCts();
+
 </script>

@@ -5,9 +5,8 @@
  */
 package com.raiz.rest;
 
-import com.raiz.entidades.Empleado;
-import com.raiz.entidades.Empresa;
-import com.raiz.entidades.EmpresaEmpleado;
+import com.raiz.entidades.Cts;
+import com.raiz.entidades.CtsSelect;
 import com.raiz.negocio.Mantenimiento;
 import java.util.List;
 import javax.ejb.EJB;
@@ -25,45 +24,45 @@ import javax.ws.rs.core.MediaType;
 /**
  * REST Web Service
  *
- * @author JAVIER-PC
+ * @author Usuario
  */
-@Path("empresa_empleado")
-public class Empresa_empleadoRest {
+@Path("cts")
+public class CtsRest {
 
     @EJB
     private Mantenimiento mantenimiento;
 
     /**
-     * Creates a new instance of Empresa_empleadoRest
+     * Creates a new instance of CtsRest
      */
-    public Empresa_empleadoRest() {
+    public CtsRest() {
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public String insertEmpresaEmpleador(EmpresaEmpleado empreEmple) {
-        String Rpsta = mantenimiento.registrarEmpresaEmpleador(empreEmple);
+    public String insertCts(Cts cts) {
+        String Rpsta = mantenimiento.registrarCts(cts);
         return Rpsta;
     }
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<EmpresaEmpleado> getEmpresas() {
-        return mantenimiento.listarEmpresaEmpleadores();
+    public List<CtsSelect> getCts() {
+        return mantenimiento.listarCts();
     }
 
     @GET
-    @Path("empresa/{id}")
+    @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Empresa> findEmpresasAsociadas(@PathParam("id") Integer id) {
-        return mantenimiento.buscarEmpresasAsociadas(id);
-    }
-    
-    @GET
-    @Path("empleado/{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Empleado> findEmpleadosAsociadas(@PathParam("id") Integer id) {
-        return mantenimiento.buscarEmpleadosAsociados(id);
+    public CtsSelect findCts(@PathParam("id") Integer id) {
+        return mantenimiento.buscarCts(id);
     }
 
+    @PUT
+    @Path("{id}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public String editCts(@PathParam("id") Integer id, Cts cts) {
+        String Rpsta = mantenimiento.actualizarCts(id, cts);
+        return Rpsta;
+    }
 }

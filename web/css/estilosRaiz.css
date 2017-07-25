@@ -7,3 +7,9 @@
     font-weight: bold;
 }
 
+
+.registroSeleccionado{
+    cursor: pointer;
+    background-color: #fdffac;
+    color: #1a8c90;
+}

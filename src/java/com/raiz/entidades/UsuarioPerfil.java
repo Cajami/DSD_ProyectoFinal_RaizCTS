@@ -43,7 +43,7 @@ public class UsuarioPerfil implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "FECHA_VTO")
-    private int fechaVto;
+    private String fechaVto;
 
     public UsuarioPerfil() {
     }
@@ -52,7 +52,7 @@ public class UsuarioPerfil implements Serializable {
         this.codigoUsuario = codigoUsuario;
     }
 
-    public UsuarioPerfil(Integer codigoUsuario, int codigoPerfil, int fechaVto) {
+    public UsuarioPerfil(Integer codigoUsuario, int codigoPerfil, String fechaVto) {
         this.codigoUsuario = codigoUsuario;
         this.codigoPerfil = codigoPerfil;
         this.fechaVto = fechaVto;
@@ -74,11 +74,11 @@ public class UsuarioPerfil implements Serializable {
         this.codigoPerfil = codigoPerfil;
     }
 
-    public int getFechaVto() {
+    public String getFechaVto() {
         return fechaVto;
     }
 
-    public void setFechaVto(int fechaVto) {
+    public void setFechaVto(String fechaVto) {
         this.fechaVto = fechaVto;
     }
 

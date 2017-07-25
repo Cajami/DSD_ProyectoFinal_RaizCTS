@@ -53,10 +53,6 @@ public class EmpresaRest {
         return mantenimiento.listarEmpresas();
     }
        
-    
-    
-    
-
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

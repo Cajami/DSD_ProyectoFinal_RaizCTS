@@ -7,6 +7,7 @@ package com.raiz.negocio;
 
 import com.raiz.entidades.Aprobacion;
 import com.raiz.entidades.Cts;
+import com.raiz.entidades.CtsSelect;
 import com.raiz.entidades.Empleado;
 import com.raiz.entidades.Empresa;
 import com.raiz.entidades.EmpresaEmpleado;
@@ -156,23 +157,26 @@ public class Mantenimiento {
 ==============================================================================================================================================
      */
  /*REGISTRAMOS CTS*/
-    public String registrarCts(Integer usuario, Integer tasa, Integer traslado) {
-        Query q = em.createNativeQuery("INSERT INTO CTS VALUES(?1,NOW(),NULL,NULL,?2,1,?3)");
-        q.setParameter(1, usuario);
-        q.setParameter(2, tasa);
-        q.setParameter(3, traslado);
-        return "Se registró Cts";
+    public String registrarCts(Cts cts) {
+        em.persist(cts);
+        return "Se registro CTS";
     }
 
     /*LISTAMOS TODOS LOS CTS*/
-    public List<Cts> listarCts() {
-        Query q = em.createQuery("SELECT e FROM Cts e");
+    public List<CtsSelect> listarCts() {
+        Query q = em.createNativeQuery("SELECT c.CODIGO_CTS,e.CODIGO_EMPLEADO,e.NRO_DOC,e.APELLIDO_PATERNO,e.APELLIDO_MATERNO,e.NOMBRES,em.CODIGO_EMPRESA,em.RUC,em.DESCRIPCION,c.FECHA_INGRESO,c.FECHA_MODIFICA,c.TASA,c.CONDICION,c.ESTADO,c.SALDO,u.CODIGO_USUARIO,u.NOMBRE_USUARIO FROM cts c INNER JOIN empleado e ON e.CODIGO_EMPLEADO = c.CODIGO_EMPLEADO INNER JOIN empresa em ON em.CODIGO_EMPRESA = c.CODIGO_EMPRESA INNER JOIN usuario u ON u.CODIGO_USUARIO = c.CODIGO_USUARIO", CtsSelect.class);
         return q.getResultList();
     }
 
     /*BUSCAMOS UN CTS*/
-    public Cts buscarCts(Integer idCts) {
-        return em.find(Cts.class, idCts);
+    public CtsSelect buscarCts(Integer idCts) {
+        Query q = em.createNativeQuery("SELECT c.CODIGO_CTS,e.CODIGO_EMPLEADO,e.NRO_DOC,e.APELLIDO_PATERNO,e.APELLIDO_MATERNO,e.NOMBRES,em.CODIGO_EMPRESA,em.RUC,em.DESCRIPCION,c.FECHA_INGRESO,c.FECHA_MODIFICA,c.TASA,c.CONDICION,c.ESTADO,c.SALDO,u.CODIGO_USUARIO,u.NOMBRE_USUARIO FROM cts c INNER JOIN empleado e ON e.CODIGO_EMPLEADO = c.CODIGO_EMPLEADO INNER JOIN empresa em ON em.CODIGO_EMPRESA = c.CODIGO_EMPRESA INNER JOIN usuario u ON u.CODIGO_USUARIO = c.CODIGO_USUARIO WHERE c.CODIGO_CTS = " + idCts.toString(), CtsSelect.class);
+        List<CtsSelect> lista = q.getResultList();
+        if (lista.size() > 0) {
+            return lista.get(0);
+        } else {
+            return null;
+        }
     }
 
     /*ACTUALIZAR UN CTS*/
@@ -182,13 +186,15 @@ public class Mantenimiento {
         if (p == null) {
             return "Cts No encontrado";
         } else {
-            p.setCodigoUsuario(cts.getCodigoUsuario());
+            p.setCodigoEmpleado(cts.getCodigoEmpleado());
+            p.setCodigoEmpresa(cts.getCodigoEmpresa());
             p.setFechaIngreso(cts.getFechaIngreso());
             p.setFechaModifica(cts.getFechaModifica());
-            p.setFechaApertura(cts.getFechaApertura());
             p.setTasa(cts.getTasa());
             p.setEstado(cts.getEstado());
-            p.setTraslado(cts.getTraslado());
+            p.setCondicion(cts.getCondicion());
+            p.setSaldo(cts.getSaldo());
+            p.setCodigoUsuario(cts.getCodigoUsuario());
 
             em.merge(p);
             return "Se actualizaron datos de Cts";
@@ -532,15 +538,15 @@ public class Mantenimiento {
     }
 
     /*BUSCAMOS*/
-    public List<Object> buscarEmpresasAsociadas(Integer id) {
+    public List<Empresa> buscarEmpresasAsociadas(Integer id) {
         //Query q = em.createQuery("SELECT e FROM EmpresaEmpleado e");
-        Query q = em.createNativeQuery("SELECT e.* FROM empresa e INNER JOIN empresa_empleado ee ON ee.CODIGO_EMPRESA = e.CODIGO_EMPRESA WHERE ee.CODIGO_EMPLEADO=" + id.toString());
+        Query q = em.createNativeQuery("SELECT e.* FROM empresa e INNER JOIN empresa_empleado ee ON ee.CODIGO_EMPRESA = e.CODIGO_EMPRESA WHERE ee.CODIGO_EMPLEADO=" + id.toString(), Empresa.class);
         return q.getResultList();
     }
 
-    public List<Object> buscarEmpleadosAsociados(Integer id) {
+    public List<Empleado> buscarEmpleadosAsociados(Integer id) {
         //Query q = em.createQuery("SELECT e FROM EmpresaEmpleado e");
-        Query q = em.createNativeQuery("SELECT e.* FROM empleado e INNER JOIN empresa_empleado ee ON ee.CODIGO_EMPLEADO = e.CODIGO_EMPLEADO WHERE ee.CODIGO_EMPRESA==" + id.toString());
+        Query q = em.createNativeQuery("SELECT e.* FROM empleado e INNER JOIN empresa_empleado ee ON ee.CODIGO_EMPLEADO = e.CODIGO_EMPLEADO WHERE ee.CODIGO_EMPRESA=" + id.toString(), Empleado.class);
         return q.getResultList();
     }
 

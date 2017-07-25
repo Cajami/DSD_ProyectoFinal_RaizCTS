@@ -7,11 +7,14 @@ package com.raiz.negocio;
 
 import com.raiz.entidades.Aprobacion;
 import com.raiz.entidades.Cts;
+import com.raiz.entidades.CtsSelect;
 import com.raiz.entidades.Empleado;
 import com.raiz.entidades.Empresa;
+import com.raiz.entidades.EmpresaEmpleado;
 import com.raiz.entidades.ExcepcionTasa;
 import com.raiz.entidades.Pais;
 import com.raiz.entidades.Perfil;
+import com.raiz.entidades.TipoDocumento;
 import com.raiz.entidades.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -201,15 +204,14 @@ public class MantenimientoTest {
         container.close();
     }
 
-    @Test
+    //@Test
     public void testRegistrarCts() throws Exception {
         System.out.println("registrarCts");
         //Cts cts = null;
         EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
         String expResult = "";
-        String result = instance.registrarCts(1,7,0);
-        assertEquals(expResult, result);
+        //String result = instance.registrarCts(1, 7, 0);
         container.close();
     }
 
@@ -218,9 +220,8 @@ public class MantenimientoTest {
         System.out.println("listarCts");
         EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
-        List<Cts> expResult = null;
-        List<Cts> result = instance.listarCts();
-        assertEquals(expResult, result);
+        List<CtsSelect> expResult = null;
+        List<CtsSelect> result = instance.listarCts();
         container.close();
     }
 
@@ -230,8 +231,8 @@ public class MantenimientoTest {
         Integer idCts = null;
         EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
-        Cts expResult = null;
-        Cts result = instance.buscarCts(idCts);
+        CtsSelect expResult = null;
+        CtsSelect result = instance.buscarCts(idCts);
         assertEquals(expResult, result);
         container.close();
     }
@@ -559,6 +560,132 @@ public class MantenimientoTest {
         String result = instance.eliminarUsuario(idUsuario);
         assertEquals(expResult, result);
         container.close();
+    }
+
+    //@Test
+    public void testRegistrarTipoDocumento() throws Exception {
+        System.out.println("registrarTipoDocumento");
+        TipoDocumento tipoDocumento = null;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        String expResult = "";
+        String result = instance.registrarTipoDocumento(tipoDocumento);
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    //@Test
+    public void testListarTipoDocumentos() throws Exception {
+        System.out.println("listarTipoDocumentos");
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        List<TipoDocumento> expResult = null;
+        List<TipoDocumento> result = instance.listarTipoDocumentos();
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    //@Test
+    public void testBuscarTipoDocumento() throws Exception {
+        System.out.println("buscarTipoDocumento");
+        Integer idTipoDocumento = null;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        TipoDocumento expResult = null;
+        TipoDocumento result = instance.buscarTipoDocumento(idTipoDocumento);
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    //@Test
+    public void testActualizarTipoDocumento() throws Exception {
+        System.out.println("actualizarTipoDocumento");
+        int idTipoDocumento = 0;
+        TipoDocumento tipoDocumento = null;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        String expResult = "";
+        String result = instance.actualizarTipoDocumento(idTipoDocumento, tipoDocumento);
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    //@Test
+    public void testEliminarTipoDocumento() throws Exception {
+        System.out.println("eliminarTipoDocumento");
+        int idTipoDocumento = 0;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        String expResult = "";
+        String result = instance.eliminarTipoDocumento(idTipoDocumento);
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    //@Test
+    public void testRegistrarEmpresaEmpleador() throws Exception {
+        System.out.println("registrarEmpresaEmpleador");
+        EmpresaEmpleado empreEmple = null;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        String expResult = "";
+        String result = instance.registrarEmpresaEmpleador(empreEmple);
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    //@Test
+    public void testListarEmpresaEmpleadores() throws Exception {
+        System.out.println("listarEmpresaEmpleadores");
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        List<EmpresaEmpleado> expResult = null;
+        List<EmpresaEmpleado> result = instance.listarEmpresaEmpleadores();
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testBuscarEmpresasAsociadas() throws Exception {
+        System.out.println("buscarEmpresasAsociadas");
+        Integer id = 10;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        List<Empresa> result = instance.buscarEmpresasAsociadas(id);
+        System.out.println("buscarEmpresasAsociadas: " + result.get(0));
+        container.close();
+
+    }
+
+    //@Test
+    public void testBuscarEmpleadosAsociados() throws Exception {
+        System.out.println("buscarEmpleadosAsociados");
+        Integer id = null;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        List<Empleado> result = instance.buscarEmpleadosAsociados(id);
+        container.close();
+    }
+
+    //@Test
+    public void testActualizarEmpresaEmpleador() throws Exception {
+        System.out.println("actualizarEmpresaEmpleador");
+        int id = 0;
+        EmpresaEmpleado empreEmple = null;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        Mantenimiento instance = (Mantenimiento) container.getContext().lookup("java:global/classes/Mantenimiento");
+        String expResult = "";
+        String result = instance.actualizarEmpresaEmpleador(id, empreEmple);
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
     }
 
 }

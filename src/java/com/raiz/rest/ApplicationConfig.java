@@ -29,12 +29,14 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(com.raiz.rest.CtsRest.class);
         resources.add(com.raiz.rest.EmpleadoRest.class);
         resources.add(com.raiz.rest.EmpresaRest.class);
         resources.add(com.raiz.rest.Empresa_empleadoRest.class);
         resources.add(com.raiz.rest.MantenimientoRest.class);
         resources.add(com.raiz.rest.PaisRest.class);
         resources.add(com.raiz.rest.TipoDocumentoRest.class);
+        resources.add(com.raiz.rest.UsuarioPerfilRest.class);
     }
     
 }
