@@ -36,18 +36,23 @@ CREATE TABLE IF NOT EXISTS `aprobacion` (
 DROP TABLE IF EXISTS `cts`;
 CREATE TABLE IF NOT EXISTS `cts` (
   `CODIGO_CTS` int(11) NOT NULL AUTO_INCREMENT,
-  `CODIGO_USUARIO` int(11) NOT NULL,
-  `FECHA_INGRESO` datetime NOT NULL,
-  `FECHA_MODIFICA` datetime DEFAULT NULL,
-  `FECHA_APERTURA` datetime DEFAULT NULL,
+  `CODIGO_EMPLEADO` int(11) NOT NULL,
+  `CODIGO_EMPRESA` int(11) NOT NULL,
+  `FECHA_INGRESO` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `FECHA_MODIFICA` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
   `TASA` double NOT NULL,
   `ESTADO` char(1) COLLATE utf8_spanish_ci NOT NULL,
-  `TRASLADO` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  `CONDICION` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  `SALDO` double NOT NULL,
+  `CODIGO_USUARIO` int(11) DEFAULT NULL,
   PRIMARY KEY (`CODIGO_CTS`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla bdraiz.cts: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bdraiz.cts: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `cts` DISABLE KEYS */;
+INSERT INTO `cts` (`CODIGO_CTS`, `CODIGO_EMPLEADO`, `CODIGO_EMPRESA`, `FECHA_INGRESO`, `FECHA_MODIFICA`, `TASA`, `ESTADO`, `CONDICION`, `SALDO`, `CODIGO_USUARIO`) VALUES
+	(1, 1, 3, '25/07/2017 11:22', '25/07/2017 14:55', 2.1, '0', 'T', 1200, 1),
+	(4, 3, 5, '25/07/2017 15:09', '', 3, '0', 'N', 0, 2);
 /*!40000 ALTER TABLE `cts` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bdraiz.empleado
@@ -64,9 +69,9 @@ CREATE TABLE IF NOT EXISTS `empleado` (
   `DOMICILIO` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `EMAIL` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`CODIGO_EMPLEADO`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla bdraiz.empleado: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla bdraiz.empleado: ~10 rows (aproximadamente)
 /*!40000 ALTER TABLE `empleado` DISABLE KEYS */;
 INSERT INTO `empleado` (`CODIGO_EMPLEADO`, `CODIGO_PAIS`, `CODIGO_TIPDOC`, `NRO_DOC`, `APELLIDO_PATERNO`, `APELLIDO_MATERNO`, `NOMBRES`, `FECHA_NACIMIENTO`, `DOMICILIO`, `EMAIL`) VALUES
 	(1, 1, 1, '4423154', 'PEREZ', 'PADILLA', 'PEPITO', '12/04/1980', 'CALLE SIN NUMERO MZ O LT 15', 'PEPITO@GMAIL.COM'),
@@ -77,7 +82,8 @@ INSERT INTO `empleado` (`CODIGO_EMPLEADO`, `CODIGO_PAIS`, `CODIGO_TIPDOC`, `NRO_
 	(6, 1, 1, '65415985', 'MURGUIA', 'PINO DE BARRENA', 'DORA', '08/07/1975', 'AV SUCRE 1173 Int: 35', 'DORA@GMAIL.COM'),
 	(7, 1, 1, '85200012', 'DIAZ', 'YENGLE', 'LUCILA VIOLETA', '16/06/1984', 'CL EUSEBIO GALVEZ 174', 'VIOLETA@GMAIL.COM'),
 	(8, 1, 0, '1231221212', 'RAMIREZ', 'TANDAZO', 'IVAN', '07/07/2017', 'AV METROPOLITANA', 'IVAN@IVAN.COM'),
-	(9, 1, 0, '44235854', 'HUARCAYA', 'HINOSTROZA', 'JONATHAN', '04/07/2017', 'SAN MIGUEL', 'JONATHAN@JONATHAN');
+	(9, 1, 0, '44235854', 'HUARCAYA', 'HINOSTROZA', 'JONATHAN', '04/07/2017', 'SAN MIGUEL', 'JONATHAN@JONATHAN'),
+	(10, 2, 1, '1515151515', 'FGHJGFKL', 'DGHJFGKGLHKJ', 'GTUYJTYU', '27/06/2017', 'DGJKJDFG', 'KHGJKHGJHG');
 /*!40000 ALTER TABLE `empleado` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bdraiz.empresa
@@ -90,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   PRIMARY KEY (`CODIGO_EMPRESA`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla bdraiz.empresa: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla bdraiz.empresa: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
 INSERT INTO `empresa` (`CODIGO_EMPRESA`, `RUC`, `DESCRIPCION`, `DIRECCION`) VALUES
 	(1, '15452548541', 'TELEFONICA', 'CL VALDEZ, FULGENCIO 505 Piso: 2'),
@@ -110,10 +116,16 @@ CREATE TABLE IF NOT EXISTS `empresa_empleado` (
   `CODIGO_EMPRESA` int(11) NOT NULL,
   `CODIGO_EMPLEADO` int(11) NOT NULL,
   PRIMARY KEY (`IDEMPLEADO_EMPLEADOR`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla bdraiz.empresa_empleado: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bdraiz.empresa_empleado: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `empresa_empleado` DISABLE KEYS */;
+INSERT INTO `empresa_empleado` (`IDEMPLEADO_EMPLEADOR`, `CODIGO_EMPRESA`, `CODIGO_EMPLEADO`) VALUES
+	(1, 6, 10),
+	(2, 1, 10),
+	(3, 3, 10),
+	(4, 3, 1),
+	(5, 5, 3);
 /*!40000 ALTER TABLE `empresa_empleado` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bdraiz.excepcion_tasa
@@ -196,13 +208,16 @@ INSERT INTO `tipo_documento` (`CODIGO_TIPODOCUMENTO`, `DESCRIPCION`) VALUES
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `CODIGO_USUARIO` int(11) NOT NULL AUTO_INCREMENT,
-  `DESCRIPCION` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `NOMBRE_USUARIO` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `FECHA_INGRESO` datetime NOT NULL,
   PRIMARY KEY (`CODIGO_USUARIO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla bdraiz.usuario: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bdraiz.usuario: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` (`CODIGO_USUARIO`, `NOMBRE_USUARIO`, `FECHA_INGRESO`) VALUES
+	(1, 'Huarcaya Jonathan', '2001-01-15 08:00:00'),
+	(2, 'Olivera Adaia', '2005-02-18 08:00:00');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bdraiz.usuario_perfil
@@ -210,13 +225,16 @@ DROP TABLE IF EXISTS `usuario_perfil`;
 CREATE TABLE IF NOT EXISTS `usuario_perfil` (
   `CODIGO_USUARIO` int(11) NOT NULL,
   `CODIGO_PERFIL` int(11) NOT NULL,
-  `FECHA_VTO` int(11) NOT NULL,
+  `FECHA_VTO` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`CODIGO_USUARIO`),
   KEY `CODIGO_PERFIL` (`CODIGO_PERFIL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla bdraiz.usuario_perfil: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bdraiz.usuario_perfil: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuario_perfil` DISABLE KEYS */;
+INSERT INTO `usuario_perfil` (`CODIGO_USUARIO`, `CODIGO_PERFIL`, `FECHA_VTO`) VALUES
+	(1, 2, '31/12/2018 20:00'),
+	(2, 1, '31/12/2018 20:00');
 /*!40000 ALTER TABLE `usuario_perfil` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
