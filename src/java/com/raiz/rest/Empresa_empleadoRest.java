@@ -38,7 +38,6 @@ public class Empresa_empleadoRest {
     public Empresa_empleadoRest() {
     }
 
-    
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String insertEmpresaEmpleador(EmpresaEmpleado empreEmple) {

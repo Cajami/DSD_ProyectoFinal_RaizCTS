@@ -39,6 +39,7 @@
                                     <td>Nombres</td>
                                     <td>Domicilio</td>
                                     <td>Email</td>
+                                    <td>SEL</td>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -134,7 +135,7 @@
                     </div>
                 </div>
 
-                <div class="row margin-top-10">
+                <div class="row margin-top-10" style="margin-bottom: 100px;">
 
 
                     <div>
@@ -144,7 +145,7 @@
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon" >Nombre de Empresa:</span>
-                                        <input type="text" class="form-control" placeholder="Razón Social" id="txtEmpresaAgregar" />
+                                        <input type="text" class="form-control text-uppercase" placeholder="Razón Social" id="txtEmpresaAgregar" />
 
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button" id="btnAgregarEmpleadorACliente">Agregar</button>
@@ -169,17 +170,10 @@
                             </div>
                         </fieldset>
                     </div> 
-
                 </div>
-
             </div>
         </div>
-
     </div>
-
-
-
-
 </div>
 <script>
 
@@ -198,6 +192,7 @@
                                 '<td>' + e.nombres + '</td>' +
                                 '<td>' + e.domicilio + '</td>' +
                                 '<td>' + e.email + '</td>' +
+                                '<td class="text-center tdSelect" onClick="SeleccionarEmpleado(\'' + e.nroDoc + '\')"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i></td>' +
                                 '</tr>';
                     });
 
@@ -207,8 +202,31 @@
                 function (data) {
                     alert('Error al consultar REST: GET EMPLEADOS');
                 });
-
     });
+
+    function SeleccionarEmpleado(id) {
+        /*BUSCAMOS AL EMPLEADO*/
+        QueryAJAX('empleado/' + id, 'GET',
+                '',
+                function (data) {
+                    $('a[href="#NuevoCliente"]').tab('show');
+
+                    $('#cboPaisEmpleado').val(data.codigoEmpleado);
+                    $('#cboTipoDocumentoEmpleado option[value="' + data.codigoTipdoc + '"]').attr("selected", true);
+
+                    $('#txtDocumentoIdentidadEmpleado').val(data.nroDoc);
+                    $('#txtApellidoPaternoEmpleado').val(data.apellidoPaterno);
+                    $('#txtApellidoMaternoEmpleado').val(data.apellidoMaterno);
+                    $('#txtNombresEmpleado').val(data.nombres);
+                    $('#txtFechaNacimientoEmpleado').val(data.fechaNacimiento);
+                    $('#txtDireccionEmpleado').val(data.domicilio);
+                    $('#txtEmailEmpleado').val(data.email);
+
+                },
+                function (data) {
+                    alert('Error al consultar REST: Buscar Empleado');
+                });
+    }
 
     $('#btnNuevoRegistro').on('click', function () {
         $('#txtCodigoUnico').val('0');
@@ -217,7 +235,11 @@
 
         $('#tablaEmpresasAsociadas tbody').html('');
 
+        BloquearControlerEmpleado(false);
+        $('#txtEmpresaAgregar,#btnAgregarEmpleadorACliente').prop('disabled', true);
+
         $('#btnGuardarCliente').prop('disabled', false);
+        $('#cboPaisEmpleado').focus();
     });
 
     $('#txtFechaNacimientoEmpleado').on('keydown', function (e) {
@@ -229,6 +251,7 @@
     });
 
     $('#btnGuardarCliente').on('click', function () {
+        $('#btnGuardarCliente').prop('disabled', true);
         var dataGuardar = {
             codigoEmpleado: null,
             codigoPais: $('#cboPaisEmpleado').val(),
@@ -251,26 +274,27 @@
             dataType: 'JSON',
             data: JSON.stringify(dataGuardar),
             contentType: "application/json; charset=utf-8",
-            success: function (jsondata) {
-                alert(jsondata);
+            success: function (data) {
+                if ($.isNumeric(data)) {
+                    $('#txtCodigoUnico').val(data);
+                    alert('Se registró empleado');
+                    $('#txtEmpresaAgregar,#btnAgregarEmpleadorACliente').prop('disabled', false);
+                    $('#txtEmpresaAgregar').focus();
+                } else {
+                    alert('Error');
+                }
             },
             error: function (err) {
-
+                $('#btnGuardarCliente').prop('disabled', true);
             }
         });
-
-        return;
-
-        /*TRAER TODOS LOS TIPOS DE DOCUMENTO*/
-        QueryAJAX('insertEmpleado', 'POST',
-                JSON.stringify(dataGuardar),
-                function (data) {
-                    console.log(data);
-                },
-                function (data) {
-                    alert('Error al consultar REST: Guardar Empleado');
-                });
     });
+
+    function BloquearControlerEmpleado(sw) {
+        $('#cboPaisEmpleado,#cboTipoDocumentoEmpleado').prop('disabled', sw);
+        $('#txtDocumentoIdentidadEmpleado,#txtApellidoMaternoEmpleado,#txtNombresEmpleado,#txtDireccionEmpleado,#txtFechaNacimientoEmpleado,#txtEmailEmpleado').prop('disabled', sw);
+        //#txtEmpresaAgregar
+    }
 
     $('#txtEmpresaAgregar').typeahead({
         source: [],
@@ -287,23 +311,59 @@
 
     $('#btnAgregarEmpleadorACliente').on('click', function () {
         var empresaSeleccionada = $('#txtEmpresaAgregar').typeahead("getActive");
-        //{"codigoEmpresa":5,"descripcion":"SAGA FALABELLA","direccion":"JR JR REBECA OQUENDO 409 CD UNICO  706  ","ruc":"80352102541","name":"SAGA FALABELLA"}
+
+        if ($('#tablaEmpresasAsociadas tbody tr[rz-ruc="' + empresaSeleccionada.ruc + '"]').length > 0) {
+            alert('Empresa ya registrada al empleado');
+            $('#txtEmpresaAgregar').select().focus();
+            return;
+        }
 
         var dataGuardar = {
-            idempleadoEmpleador: null,
+            idempleadoEmpleador: 1,
             codigoEmpresa: empresaSeleccionada.codigoEmpresa,
-            codigoEmpleado: $('#txtCodigoUnico').val()
+            codigoEmpleado: parseInt($('#txtCodigoUnico').val())
         };
 
-        QueryAJAX('empresa_empleado', 'POST',
-                JSON.stringify(dataGuardar),
-                function (data) {
-                },
-                function (data) {
 
-                });
+
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: "http://localhost:8080/DSD_ProyectoFinal_RaizCTS/webresources/empresa_empleado",
+            dataType: 'JSON',
+            data: JSON.stringify(dataGuardar),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var html = '<tr rz-ruc="' + empresaSeleccionada.ruc + '">' +
+                        '<td>' + ($('#tablaEmpresasAsociadas tbody tr').length + 1) + '</td>' +
+                        '<td>' + empresaSeleccionada.ruc + '</td>' +
+                        '<td>' + empresaSeleccionada.descripcion + '</td>' +
+                        '</tr>';
+                $('#tablaEmpresasAsociadas tbody').append(html);
+
+                $('#txtEmpresaAgregar').val('').focus();
+
+            },
+            error: function (err) {
+                if (err.statusText == 'OK') {
+                    var html = '<tr rz-ruc="' + empresaSeleccionada.ruc + '">' +
+                            '<td>' + ($('#tablaEmpresasAsociadas tbody tr').length + 1) + '</td>' +
+                            '<td>' + empresaSeleccionada.ruc + '</td>' +
+                            '<td>' + empresaSeleccionada.descripcion + '</td>' +
+                            '</tr>';
+                    $('#tablaEmpresasAsociadas tbody').append(html);
+                    $('#txtEmpresaAgregar').val('').focus();
+
+                } else {
+                    alert('Error');
+                }
+            }
+        });
     });
+
     function InicioPaginaCliente() {
+        BloquearControlerEmpleado(true);
+        $('#txtEmpresaAgregar,#btnAgregarEmpleadorACliente').prop('disabled', true);
         /*TRAER TODAS LAS EMPRESAS*/
         QueryAJAX('empresa', 'GET', '',
                 function (data) {
@@ -324,7 +384,7 @@
                                         function (data) {
                                             html = '';
                                             data.map(function (e) {
-                                                html += '<option value="' + e.codigoTipoDocumento + '">' + e.descripcion + '</option>';
+                                                html += '<option value="' + e.codigoTipodocumento + '">' + e.descripcion + '</option>';
                                             });
                                             $('#cboTipoDocumentoEmpleado').html(html).prop('selectedIndex', -1);
                                         },

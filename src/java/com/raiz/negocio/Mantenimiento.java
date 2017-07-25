@@ -522,7 +522,7 @@ public class Mantenimiento {
  /*REGISTRAMOS*/
     public String registrarEmpresaEmpleador(EmpresaEmpleado empreEmple) {
         em.persist(empreEmple);
-        return "Se registró Empresa";
+        return "Se registro Empresa";
     }
 
     /*LISTAMOS*/

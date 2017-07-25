@@ -1,0 +1,9 @@
+.tdSelect:hover{
+    background-color: #f5f5d1;
+    cursor:pointer;
+}
+
+.tdSelect i:hover{
+    font-weight: bold;
+}
+
